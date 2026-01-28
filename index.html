@@ -294,7 +294,7 @@
             margin-top: 15px;
             font-family: monospace;
             font-size: 0.9em;
-            max-height: 200px;
+            max-height: 400px;
             overflow-y: auto;
             display: none;
         }
@@ -352,7 +352,7 @@
                     📤 ขั้นตอนที่ 1: อัพโหลดข้อมูลพนักงาน
                 </div>
                 <div class="form-group">
-                    <label>เลือกไฟล์ Excel ข้อมูลพนักงาน (Emp-ID, Function, Name)</label>
+                    <label>เลือกไฟล์ Excel ข้อมูลพนักงาน</label>
                     <div class="file-upload-wrapper">
                         <label for="fileInput" class="file-upload-label">
                             📁 เลือกไฟล์ Excel
@@ -493,7 +493,7 @@
             }
         });
 
-        // Read Excel file with improved error handling
+        // Read Excel file - ปรับปรุงใหม่ รองรับทุกรูปแบบ
         function readExcelFile(file) {
             const reader = new FileReader();
             reader.onload = function(e) {
@@ -501,49 +501,92 @@
                     const data = new Uint8Array(e.target.result);
                     const workbook = XLSX.read(data, {type: 'array'});
                     const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-                    const jsonData = XLSX.utils.sheet_to_json(firstSheet, {
-                        raw: false,  // Convert all to strings
-                        defval: ''   // Default value for empty cells
+                    
+                    // อ่านข้อมูลแบบ Array แทน JSON
+                    const rawData = XLSX.utils.sheet_to_json(firstSheet, {
+                        header: 1,  // อ่านเป็น array
+                        raw: false,
+                        defval: ''
                     });
                     
-                    debugLog('Raw Excel Data:', jsonData.slice(0, 5));
+                    debugLog('Raw Data (First 10 rows):', rawData.slice(0, 10));
                     
-                    // Get all possible column names
-                    const possibleEmpIdCols = ['Emp-ID', 'EmpID', 'Employee ID', 'EmployeeID', 'Emp ID', 'รหัสพนักงาน'];
-                    const possibleFunctionCols = ['Function', 'Department', 'หน่วยงาน', 'แผนก'];
-                    const possibleNameCols = ['Name', 'Employee Name', 'EmployeeName', 'Full Name', 'ชื่อ-นามสกุล', 'ชื่อ'];
-                    
-                    // Find actual column names
-                    let empIdCol = findColumn(jsonData[0], possibleEmpIdCols);
-                    let functionCol = findColumn(jsonData[0], possibleFunctionCols);
-                    let nameCol = findColumn(jsonData[0], possibleNameCols);
-                    
-                    debugLog('Found Columns:', { empIdCol, functionCol, nameCol });
-                    
-                    if (!empIdCol) {
-                        showAlert('error', 'ไม่พบคอลัมน์ Emp-ID ในไฟล์ Excel<br>กรุณาตรวจสอบว่ามีคอลัมน์ชื่อ: ' + possibleEmpIdCols.join(', '));
+                    if (rawData.length < 2) {
+                        showAlert('error', 'ไม่พบข้อมูลในไฟล์');
                         return;
                     }
                     
-                    employeeData = jsonData.map(row => {
+                    // หา column index ของแต่ละข้อมูล
+                    const headers = rawData[0];
+                    let empIdCol = -1, functionCol = -1, nameCol = -1;
+                    
+                    // ค้นหา column ที่มี Emp-ID
+                    for (let i = 0; i < headers.length; i++) {
+                        const header = String(headers[i] || '').trim().toLowerCase();
+                        
+                        if (empIdCol === -1 && (
+                            header.includes('emp') || 
+                            header.includes('รหัส') ||
+                            header.includes('id')
+                        )) {
+                            empIdCol = i;
+                        }
+                        
+                        if (functionCol === -1 && (
+                            header.includes('function') ||
+                            header.includes('department') ||
+                            header.includes('แผนก') ||
+                            header.includes('หน่วย')
+                        )) {
+                            functionCol = i;
+                        }
+                        
+                        if (nameCol === -1 && (
+                            header.includes('name') ||
+                            header.includes('ชื่อ')
+                        )) {
+                            nameCol = i;
+                        }
+                    }
+                    
+                    // ถ้าไม่เจอ ให้ใช้ 3 column แรก
+                    if (empIdCol === -1) empIdCol = 0;
+                    if (functionCol === -1) functionCol = 1;
+                    if (nameCol === -1) nameCol = 2;
+                    
+                    debugLog('Column Indexes:', {
+                        empIdCol,
+                        functionCol,
+                        nameCol,
+                        headers
+                    });
+                    
+                    // แปลงข้อมูล
+                    employeeData = [];
+                    for (let i = 1; i < rawData.length; i++) {
+                        const row = rawData[i];
+                        if (!row || row.length === 0) continue;
+                        
                         const empId = normalizeEmpId(row[empIdCol]);
-                        return {
+                        if (!empId) continue;
+                        
+                        employeeData.push({
                             empId: empId,
                             function: String(row[functionCol] || '').trim(),
                             name: String(row[nameCol] || '').trim(),
-                            rawEmpId: row[empIdCol] // Keep original for debugging
-                        };
-                    }).filter(emp => emp.empId); // Remove empty rows
-
-                    debugLog('Processed Employee Data:', employeeData.slice(0, 5));
+                            rawData: row
+                        });
+                    }
+                    
+                    debugLog('Processed Employee Data (First 10):', employeeData.slice(0, 10));
 
                     if (employeeData.length > 0) {
-                        showAlert('success', `โหลดข้อมูลสำเร็จ! พบพนักงาน ${employeeData.length} คน`);
+                        showAlert('success', `✅ โหลดข้อมูลสำเร็จ! พบพนักงาน ${employeeData.length} คน<br>ลองกด "ดูตัวอย่างข้อมูล" เพื่อเช็คว่าอ่านถูกต้อง`);
                         document.getElementById('totalEmployees').textContent = employeeData.length;
                         document.getElementById('employeeStats').style.display = 'grid';
                         saveToLocalStorage();
                     } else {
-                        showAlert('error', 'ไม่พบข้อมูลในไฟล์ กรุณาตรวจสอบรูปแบบไฟล์');
+                        showAlert('error', 'ไม่พบข้อมูลที่ถูกต้องในไฟล์');
                     }
                 } catch (error) {
                     debugLog('Error:', error);
@@ -553,24 +596,13 @@
             reader.readAsArrayBuffer(file);
         }
 
-        // Find column name (case-insensitive)
-        function findColumn(row, possibleNames) {
-            if (!row) return null;
-            const keys = Object.keys(row);
-            for (let possible of possibleNames) {
-                const found = keys.find(k => k.toLowerCase().trim() === possible.toLowerCase().trim());
-                if (found) return found;
-            }
-            return keys[0]; // Return first column as fallback
-        }
-
-        // Normalize Emp-ID (remove spaces, leading zeros, etc.)
+        // Normalize Emp-ID
         function normalizeEmpId(empId) {
             if (!empId) return '';
             return String(empId).trim().replace(/\s+/g, '').replace(/^0+/, '');
         }
 
-        // Auto-fill employee data when Emp-ID is entered
+        // Auto-fill employee data
         document.getElementById('empId').addEventListener('input', function(e) {
             const empId = normalizeEmpId(e.target.value);
             
@@ -580,22 +612,21 @@
                 return;
             }
 
-            debugLog('Searching for Emp-ID:', empId);
+            debugLog('🔍 Searching for Emp-ID:', empId);
             
             const employee = employeeData.find(emp => emp.empId === empId);
-            
-            debugLog('Found Employee:', employee);
             
             if (employee) {
                 document.getElementById('empFunction').value = employee.function;
                 document.getElementById('empName').value = employee.name;
                 showAlert('info', `✅ พบข้อมูลพนักงาน: ${employee.name} (${employee.function})`);
+                debugLog('✅ Found:', employee);
             } else {
                 document.getElementById('empFunction').value = '';
                 document.getElementById('empName').value = '';
                 if (empId.length >= 4) {
-                    showAlert('warning', `❌ ไม่พบข้อมูล Emp-ID: ${empId}<br>กรุณาตรวจสอบรหัสพนักงาน`);
-                    debugLog('Available Emp-IDs:', employeeData.map(e => e.empId).slice(0, 10));
+                    showAlert('warning', `❌ ไม่พบข้อมูล Emp-ID: ${empId}`);
+                    debugLog('❌ Not found. Available IDs:', employeeData.map(e => e.empId).slice(0, 20));
                 }
             }
         });
@@ -608,7 +639,6 @@
             const empFunction = document.getElementById('empFunction').value.trim();
             const empName = document.getElementById('empName').value.trim();
 
-            // Validation
             if (!prizeName) {
                 showAlert('error', 'กรุณากรอกชื่อของรางวัล');
                 return;
@@ -629,7 +659,6 @@
                 return;
             }
 
-            // Add record
             const record = {
                 id: Date.now(),
                 prizeName,
@@ -648,7 +677,7 @@
             showAlert('success', '✅ บันทึกข้อมูลสำเร็จ!');
         }
 
-        // Display records in table
+        // Display records
         function displayRecords() {
             const tbody = document.getElementById('recordsBody');
             
@@ -760,7 +789,7 @@
 
             setTimeout(() => {
                 alert.style.display = 'none';
-            }, 5000);
+            }, 6000);
         }
 
         // Debug functions
@@ -769,16 +798,23 @@
             const debugInfo = document.getElementById('debugInfo');
             debugInfo.style.display = debugMode ? 'block' : 'none';
             
-            if (debugMode) {
-                debugLog('Employee Data Count:', employeeData.length);
-                debugLog('Sample Data:', employeeData.slice(0, 10));
+            if (debugMode && employeeData.length > 0) {
+                debugLog('📊 Employee Data Summary:', {
+                    total: employeeData.length,
+                    first10: employeeData.slice(0, 10),
+                    allEmpIds: employeeData.map(e => e.empId).slice(0, 50)
+                });
             }
         }
 
         function debugLog(label, data) {
-            if (!debugMode) return;
             const debugInfo = document.getElementById('debugInfo');
-            debugInfo.innerHTML += `<strong>${label}</strong><br><pre>${JSON.stringify(data, null, 2)}</pre><hr>`;
+            const timestamp = new Date().toLocaleTimeString('th-TH');
+            debugInfo.innerHTML += `<div style="margin-bottom: 15px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
+                <strong style="color: #d9534f;">[${timestamp}] ${label}</strong><br>
+                <pre>${JSON.stringify(data, null, 2)}</pre>
+            </div>`;
+            debugInfo.scrollTop = debugInfo.scrollHeight;
         }
 
         function showSampleData() {
@@ -787,24 +823,26 @@
                 return;
             }
             
-            const sample = employeeData.slice(0, 5);
-            let message = '<strong>ตัวอย่างข้อมูล 5 คนแรก:</strong><br><br>';
+            const sample = employeeData.slice(0, 10);
+            let message = '<strong>📋 ตัวอย่างข้อมูล 10 คนแรก:</strong><br><br>';
+            message += '<div style="font-family: monospace; font-size: 0.9em; line-height: 1.8;">';
             sample.forEach((emp, i) => {
-                message += `${i + 1}. Emp-ID: ${emp.empId} | Function: ${emp.function} | Name: ${emp.name}<br>`;
+                message += `<strong>${i + 1}.</strong> ID: <span style="background: #ffffcc; padding: 2px 5px; border-radius: 3px;">${emp.empId}</span> | Function: ${emp.function || '-'} | Name: ${emp.name || '-'}<br>`;
             });
+            message += '</div>';
+            message += '<br><strong>💡 ลองคัดลอก ID ด้านบนไปลองกรอกดูครับ</strong>';
             showAlert('info', message);
         }
 
-        // Save to localStorage
+        // Save/Load localStorage
         function saveToLocalStorage() {
             localStorage.setItem('prizeRecords', JSON.stringify(records));
             localStorage.setItem('employeeData', JSON.stringify(employeeData));
         }
 
-        // Load from localStorage
         function loadFromLocalStorage() {
             const savedRecords = localStorage.getItem('prizeRecords');
-            const savedEmployees = localStorage.getItem('employeeData');
+            const savedEmployees = localStorage.setItem('employeeData');
 
             if (savedRecords) {
                 records = JSON.parse(savedRecords);
