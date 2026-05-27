@@ -6,19 +6,13 @@
     <title>ระบบจัดการของรางวัล - Prize Management System</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
         }
-
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -27,29 +21,15 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             overflow: hidden;
         }
-
         .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 30px;
             text-align: center;
         }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-
-        .content {
-            padding: 30px;
-        }
-
+        .header h1 { font-size: 2.5em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .header p { font-size: 1.1em; opacity: 0.9; }
+        .content { padding: 30px; }
         .section {
             background: #f8f9fa;
             border-radius: 15px;
@@ -57,7 +37,6 @@
             margin-bottom: 25px;
             border-left: 5px solid #667eea;
         }
-
         .section-title {
             font-size: 1.5em;
             color: #667eea;
@@ -66,11 +45,7 @@
             align-items: center;
             gap: 10px;
         }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
+        .form-group { margin-bottom: 20px; }
         label {
             display: block;
             font-weight: 600;
@@ -78,30 +53,55 @@
             margin-bottom: 8px;
             font-size: 1.05em;
         }
-
-        input[type="text"],
-        input[type="number"],
-        input[type="file"] {
+        input[type="text"], input[type="number"], select {
             width: 100%;
             padding: 12px 15px;
             border: 2px solid #e0e0e0;
             border-radius: 10px;
             font-size: 1em;
             transition: all 0.3s;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
-        input[type="text"]:focus,
-        input[type="number"]:focus {
+        input[type="text"]:focus, input[type="number"]:focus, select:focus {
             border-color: #667eea;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
         }
-
-        input[type="text"]:disabled {
+        input[type="text"]:disabled, input[type="number"]:disabled {
             background-color: #f0f0f0;
             cursor: not-allowed;
         }
-
+        select {
+            background: white;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23667eea' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 40px;
+        }
+        .prize-info-badge {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 6px 14px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+        .prize-remaining {
+            display: inline-block;
+            margin-top: 6px;
+            margin-left: 8px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+        .prize-remaining.ok { background: #d4edda; color: #155724; }
+        .prize-remaining.warn { background: #fff3cd; color: #856404; }
+        .prize-remaining.empty { background: #f8d7da; color: #721c24; }
         .btn {
             padding: 12px 30px;
             border: none;
@@ -113,80 +113,26 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-            color: white;
-        }
-
-        .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(56, 239, 125, 0.4);
-        }
-
-        .btn-export {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-        }
-
-        .btn-export:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
-        }
-
-        .btn-debug {
-            background: linear-gradient(135deg, #ffa751 0%, #ffe259 100%);
-            color: #333;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102,126,234,0.4); }
+        .btn-success { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; }
+        .btn-success:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(56,239,125,0.4); }
+        .btn-export { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .btn-export:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(245,87,108,0.4); }
+        .btn-debug { background: linear-gradient(135deg, #ffa751 0%, #ffe259 100%); color: #333; }
+        .btn-group { display: flex; gap: 15px; flex-wrap: wrap; }
         .alert {
             padding: 15px 20px;
             border-radius: 10px;
             margin-bottom: 20px;
             display: none;
         }
-
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border-left: 5px solid #28a745;
-        }
-
-        .alert-error {
-            background: #f8d7da;
-            color: #721c24;
-            border-left: 5px solid #dc3545;
-        }
-
-        .alert-info {
-            background: #d1ecf1;
-            color: #0c5460;
-            border-left: 5px solid #17a2b8;
-        }
-
-        .alert-warning {
-            background: #fff3cd;
-            color: #856404;
-            border-left: 5px solid #ffc107;
-        }
-
+        .alert-success { background: #d4edda; color: #155724; border-left: 5px solid #28a745; }
+        .alert-error { background: #f8d7da; color: #721c24; border-left: 5px solid #dc3545; }
+        .alert-info { background: #d1ecf1; color: #0c5460; border-left: 5px solid #17a2b8; }
+        .alert-warning { background: #fff3cd; color: #856404; border-left: 5px solid #ffc107; }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -196,7 +142,6 @@
             overflow: hidden;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-
         th {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -204,16 +149,8 @@
             text-align: left;
             font-weight: 600;
         }
-
-        td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        tr:hover {
-            background-color: #f8f9fa;
-        }
-
+        td { padding: 12px 15px; border-bottom: 1px solid #e0e0e0; }
+        tr:hover { background-color: #f8f9fa; }
         .delete-btn {
             background: #dc3545;
             color: white;
@@ -223,18 +160,13 @@
             cursor: pointer;
             font-size: 0.9em;
         }
-
-        .delete-btn:hover {
-            background: #c82333;
-        }
-
+        .delete-btn:hover { background: #c82333; }
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
             margin-top: 20px;
         }
-
         .stat-card {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -243,23 +175,9 @@
             text-align: center;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
-
-        .stat-card h3 {
-            font-size: 2em;
-            margin-bottom: 5px;
-        }
-
-        .stat-card p {
-            opacity: 0.9;
-            font-size: 1em;
-        }
-
-        .file-upload-wrapper {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-        }
-
+        .stat-card h3 { font-size: 2em; margin-bottom: 5px; }
+        .stat-card p { opacity: 0.9; font-size: 1em; }
+        .file-upload-wrapper { position: relative; display: inline-block; width: 100%; }
         .file-upload-label {
             display: inline-block;
             padding: 12px 30px;
@@ -270,22 +188,9 @@
             transition: all 0.3s;
             font-weight: 600;
         }
-
-        .file-upload-label:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        #fileInput {
-            display: none;
-        }
-
-        .file-name {
-            margin-top: 10px;
-            color: #666;
-            font-style: italic;
-        }
-
+        .file-upload-label:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102,126,234,0.4); }
+        #fileInput { display: none; }
+        .file-name { margin-top: 10px; color: #666; font-style: italic; }
         .debug-info {
             background: #fff3cd;
             border: 2px solid #ffc107;
@@ -298,565 +203,537 @@
             overflow-y: auto;
             display: none;
         }
+        .debug-info pre { white-space: pre-wrap; word-wrap: break-word; }
 
-        .debug-info pre {
-            white-space: pre-wrap;
-            word-wrap: break-word;
+        /* Prize grid for overview */
+        .prize-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
         }
+        .prize-item {
+            background: white;
+            border-radius: 10px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 2px solid #e0e0e0;
+            transition: all 0.2s;
+        }
+        .prize-item:hover { border-color: #667eea; box-shadow: 0 2px 8px rgba(102,126,234,0.15); }
+        .prize-item-name { font-weight: 600; color: #333; font-size: 0.95em; }
+        .prize-item-nums { display: flex; align-items: center; gap: 8px; }
+        .prize-total { background: #667eea; color: white; padding: 3px 10px; border-radius: 12px; font-size: 0.85em; font-weight: 700; }
+        .prize-used { background: #f5576c; color: white; padding: 3px 10px; border-radius: 12px; font-size: 0.85em; font-weight: 700; }
+        .prize-left { padding: 3px 10px; border-radius: 12px; font-size: 0.85em; font-weight: 700; }
+        .prize-left.ok { background: #d4edda; color: #155724; }
+        .prize-left.warn { background: #fff3cd; color: #856404; }
+        .prize-left.empty { background: #f8d7da; color: #721c24; }
 
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8em;
-            }
-            
-            .content {
-                padding: 20px;
-            }
-
-            .btn-group {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
-
-            table {
-                font-size: 0.9em;
-            }
-
-            th, td {
-                padding: 10px;
-            }
+            .header h1 { font-size: 1.8em; }
+            .content { padding: 20px; }
+            .btn-group { flex-direction: column; }
+            .btn { width: 100%; justify-content: center; }
+            table { font-size: 0.9em; }
+            th, td { padding: 10px; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🎁 ระบบจัดการของรางวัล</h1>
-            <p>Prize Management System</p>
+<div class="container">
+    <div class="header">
+        <h1>🎁 ระบบจัดการของรางวัล</h1>
+        <p>Prize Management System</p>
+    </div>
+    <div class="content">
+        <div id="alertSuccess" class="alert alert-success"></div>
+        <div id="alertError" class="alert alert-error"></div>
+        <div id="alertInfo" class="alert alert-info"></div>
+        <div id="alertWarning" class="alert alert-warning"></div>
+
+        <!-- Section 1: Upload -->
+        <div class="section">
+            <div class="section-title">📤 ขั้นตอนที่ 1: อัพโหลดข้อมูลพนักงาน</div>
+            <div class="form-group">
+                <label>เลือกไฟล์ Excel ข้อมูลพนักงาน</label>
+                <div class="file-upload-wrapper">
+                    <label for="fileInput" class="file-upload-label">📁 เลือกไฟล์ Excel</label>
+                    <input type="file" id="fileInput" accept=".xlsx,.xls">
+                    <div id="fileName" class="file-name"></div>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-debug" onclick="toggleDebug()">🔍 แสดงข้อมูล Debug</button>
+                <button class="btn btn-primary" onclick="showSampleData()">📋 ดูตัวอย่างข้อมูล</button>
+            </div>
+            <div id="debugInfo" class="debug-info"></div>
+            <div class="stats" id="employeeStats" style="display:none;">
+                <div class="stat-card">
+                    <h3 id="totalEmployees">0</h3>
+                    <p>จำนวนพนักงานทั้งหมด</p>
+                </div>
+            </div>
         </div>
 
-        <div class="content">
-            <!-- Alert Messages -->
-            <div id="alertSuccess" class="alert alert-success"></div>
-            <div id="alertError" class="alert alert-error"></div>
-            <div id="alertInfo" class="alert alert-info"></div>
-            <div id="alertWarning" class="alert alert-warning"></div>
+        <!-- Section 2: Prize Entry -->
+        <div class="section">
+            <div class="section-title">🎯 ขั้นตอนที่ 2: บันทึกข้อมูลของรางวัล</div>
 
-            <!-- Section 1: Upload Employee Data -->
-            <div class="section">
-                <div class="section-title">
-                    📤 ขั้นตอนที่ 1: อัพโหลดข้อมูลพนักงาน
-                </div>
-                <div class="form-group">
-                    <label>เลือกไฟล์ Excel ข้อมูลพนักงาน</label>
-                    <div class="file-upload-wrapper">
-                        <label for="fileInput" class="file-upload-label">
-                            📁 เลือกไฟล์ Excel
-                        </label>
-                        <input type="file" id="fileInput" accept=".xlsx, .xls">
-                        <div id="fileName" class="file-name"></div>
-                    </div>
-                </div>
-                <div class="btn-group">
-                    <button class="btn btn-debug" onclick="toggleDebug()">
-                        🔍 แสดงข้อมูล Debug
-                    </button>
-                    <button class="btn btn-primary" onclick="showSampleData()">
-                        📋 ดูตัวอย่างข้อมูล
-                    </button>
-                </div>
-                <div id="debugInfo" class="debug-info"></div>
-                <div class="stats" id="employeeStats" style="display: none;">
-                    <div class="stat-card">
-                        <h3 id="totalEmployees">0</h3>
-                        <p>จำนวนพนักงานทั้งหมด</p>
-                    </div>
+            <div class="form-group">
+                <label>ชื่อของรางวัล *</label>
+                <select id="prizeName" onchange="onPrizeSelect()">
+                    <option value="">-- กรุณาเลือกของรางวัล --</option>
+                    <option value="หม้อหุงข้าว" data-qty="2">หม้อหุงข้าว</option>
+                    <option value="หม้อสุกี้" data-qty="2">หม้อสุกี้</option>
+                    <option value="กระติกน้ำสีชมพู" data-qty="2">กระติกน้ำสีชมพู</option>
+                    <option value="กระเป๋าเป้" data-qty="6">กระเป๋าเป้</option>
+                    <option value="เบาะรองนั่ง" data-qty="6">เบาะรองนั่ง</option>
+                    <option value="กล่องข้าว+ช้อน" data-qty="10">กล่องข้าว+ช้อน</option>
+                    <option value="กล่องข้าว" data-qty="6">กล่องข้าว</option>
+                    <option value="ชุดเซ็ทช้อนส้อม" data-qty="10">ชุดเซ็ทช้อนส้อม</option>
+                    <option value="กระบอกน้ำ" data-qty="18">กระบอกน้ำ</option>
+                    <option value="แก้วน้ำ" data-qty="10">แก้วน้ำ</option>
+                    <option value="พัดใหญ่" data-qty="8">พัดใหญ่</option>
+                    <option value="เซ็ทแปรงสีฟัน" data-qty="5">เซ็ทแปรงสีฟัน</option>
+                    <option value="หมอนลายดิสนีย์" data-qty="4">หมอนลายดิสนีย์</option>
+                    <option value="กระบอกน้ำลายสนูปปี้" data-qty="10">กระบอกน้ำลายสนูปปี้</option>
+                    <option value="กระติกน้ำ 3L" data-qty="1">กระติกน้ำ 3L</option>
+                    <option value="กล่องเวฟลาย Disney" data-qty="10">กล่องเวฟลาย Disney</option>
+                    <option value="แก้วน้ำทัมเบลอร์ 10 Oz" data-qty="4">แก้วน้ำทัมเบลอร์ 10 Oz</option>
+                    <option value="ชุดของเล่นเด็ก (เครื่องบิน)" data-qty="8">ชุดของเล่นเด็ก (เครื่องบิน)</option>
+                    <option value="เก้าลิ้นชักมินิ 3ชั้น" data-qty="5">เก้าลิ้นชักมินิ 3ชั้น</option>
+                    <option value="ของเล่นที่ตักทราย" data-qty="1">ของเล่นที่ตักทราย</option>
+                </select>
+                <div id="prizeInfoArea" style="margin-top:8px; display:none;">
+                    <span class="prize-info-badge" id="prizeTotalBadge"></span>
+                    <span class="prize-remaining" id="prizeRemainingBadge"></span>
                 </div>
             </div>
 
-            <!-- Section 2: Prize Entry Form -->
-            <div class="section">
-                <div class="section-title">
-                    🎯 ขั้นตอนที่ 2: บันทึกข้อมูลของรางวัล
-                </div>
-                
-                <div class="form-group">
-                    <label>ชื่อของรางวัล *</label>
-                    <input type="text" id="prizeName" placeholder="เช่น รางวัลพนักงานดีเด่น">
-                </div>
-
-                <div class="form-group">
-                    <label>จำนวนของรางวัล *</label>
-                    <input type="number" id="prizeQuantity" placeholder="เช่น 1" min="1" value="1">
-                </div>
-
-                <div class="form-group">
-                    <label>Emp-ID *</label>
-                    <input type="text" id="empId" placeholder="กรอกรหัสพนักงาน เช่น 7126911">
-                </div>
-
-                <div class="form-group">
-                    <label>Function (แสดงอัตโนมัติ)</label>
-                    <input type="text" id="empFunction" disabled placeholder="แสดงอัตโนมัติเมื่อกรอก Emp-ID">
-                </div>
-
-                <div class="form-group">
-                    <label>Name (แสดงอัตโนมัติ)</label>
-                    <input type="text" id="empName" disabled placeholder="แสดงอัตโนมัติเมื่อกรอก Emp-ID">
-                </div>
-
-                <div class="btn-group">
-                    <button class="btn btn-success" onclick="addRecord()">
-                        ✅ บันทึกข้อมูล
-                    </button>
-                    <button class="btn btn-primary" onclick="clearForm()">
-                        🔄 ล้างฟอร์ม
-                    </button>
-                </div>
+            <div class="form-group">
+                <label>จำนวนของรางวัล *</label>
+                <input type="number" id="prizeQuantity" placeholder="เช่น 1" min="1" value="1">
             </div>
 
-            <!-- Section 3: Records Table -->
-            <div class="section">
-                <div class="section-title">
-                    📊 ขั้นตอนที่ 3: รายการบันทึก
-                </div>
+            <div class="form-group">
+                <label>Emp-ID *</label>
+                <input type="text" id="empId" placeholder="กรอกรหัสพนักงาน เช่น 7126911">
+            </div>
 
-                <div class="stats" style="margin-bottom: 20px;">
-                    <div class="stat-card">
-                        <h3 id="totalRecords">0</h3>
-                        <p>จำนวนรายการทั้งหมด</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3 id="totalPrizes">0</h3>
-                        <p>จำนวนของรางวัลทั้งหมด</p>
-                    </div>
-                </div>
+            <div class="form-group">
+                <label>Function (แสดงอัตโนมัติ)</label>
+                <input type="text" id="empFunction" disabled placeholder="แสดงอัตโนมัติเมื่อกรอก Emp-ID">
+            </div>
 
-                <div style="overflow-x: auto;">
-                    <table id="recordsTable">
-                        <thead>
-                            <tr>
-                                <th>ลำดับ</th>
-                                <th>ชื่อของรางวัล</th>
-                                <th>จำนวน</th>
-                                <th>Emp-ID</th>
-                                <th>Function</th>
-                                <th>Name</th>
-                                <th>วันที่บันทึก</th>
-                                <th>จัดการ</th>
-                            </tr>
-                        </thead>
-                        <tbody id="recordsBody">
-                            <tr>
-                                <td colspan="8" style="text-align: center; color: #999;">
-                                    ยังไม่มีข้อมูล กรุณาบันทึกข้อมูลของรางวัล
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="form-group">
+                <label>Name (แสดงอัตโนมัติ)</label>
+                <input type="text" id="empName" disabled placeholder="แสดงอัตโนมัติเมื่อกรอก Emp-ID">
+            </div>
 
-                <div class="btn-group" style="margin-top: 20px;">
-                    <button class="btn btn-export" onclick="exportToExcel()">
-                        📥 Export ไฟล์ Excel
-                    </button>
-                    <button class="btn btn-primary" onclick="clearAllRecords()">
-                        🗑️ ล้างข้อมูลทั้งหมด
-                    </button>
+            <div class="btn-group">
+                <button class="btn btn-success" onclick="addRecord()">✅ บันทึกข้อมูล</button>
+                <button class="btn btn-primary" onclick="clearForm()">🔄 ล้างฟอร์ม</button>
+            </div>
+        </div>
+
+        <!-- Section 3: Prize Overview -->
+        <div class="section">
+            <div class="section-title">📦 สรุปสถานะของรางวัล</div>
+            <div class="prize-grid" id="prizeOverviewGrid"></div>
+        </div>
+
+        <!-- Section 4: Records Table -->
+        <div class="section">
+            <div class="section-title">📊 ขั้นตอนที่ 3: รายการบันทึก</div>
+            <div class="stats" style="margin-bottom:20px;">
+                <div class="stat-card">
+                    <h3 id="totalRecords">0</h3>
+                    <p>จำนวนรายการทั้งหมด</p>
                 </div>
+                <div class="stat-card">
+                    <h3 id="totalPrizes">0</h3>
+                    <p>จำนวนของรางวัลที่แจกแล้ว</p>
+                </div>
+            </div>
+            <div style="overflow-x:auto;">
+                <table id="recordsTable">
+                    <thead>
+                        <tr>
+                            <th>ลำดับ</th>
+                            <th>ชื่อของรางวัล</th>
+                            <th>จำนวน</th>
+                            <th>Emp-ID</th>
+                            <th>Function</th>
+                            <th>Name</th>
+                            <th>วันที่บันทึก</th>
+                            <th>จัดการ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recordsBody">
+                        <tr>
+                            <td colspan="8" style="text-align:center;color:#999;">ยังไม่มีข้อมูล กรุณาบันทึกข้อมูลของรางวัล</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="btn-group" style="margin-top:20px;">
+                <button class="btn btn-export" onclick="exportToExcel()">📥 Export ไฟล์ Excel</button>
+                <button class="btn btn-primary" onclick="clearAllRecords()">🗑️ ล้างข้อมูลทั้งหมด</button>
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        // Global variables
-        let employeeData = [];
-        let records = [];
-        let debugMode = false;
+<script>
+    // ===== PRIZE CATALOG =====
+    const PRIZE_CATALOG = [
+        { name: "หม้อหุงข้าว",                    total: 2  },
+        { name: "หม้อสุกี้",                       total: 2  },
+        { name: "กระติกน้ำสีชมพู",                 total: 2  },
+        { name: "กระเป๋าเป้",                      total: 6  },
+        { name: "เบาะรองนั่ง",                     total: 6  },
+        { name: "กล่องข้าว+ช้อน",                  total: 10 },
+        { name: "กล่องข้าว",                       total: 6  },
+        { name: "ชุดเซ็ทช้อนส้อม",                 total: 10 },
+        { name: "กระบอกน้ำ",                       total: 18 },
+        { name: "แก้วน้ำ",                         total: 10 },
+        { name: "พัดใหญ่",                         total: 8  },
+        { name: "เซ็ทแปรงสีฟัน",                   total: 5  },
+        { name: "หมอนลายดิสนีย์",                  total: 4  },
+        { name: "กระบอกน้ำลายสนูปปี้",             total: 10 },
+        { name: "กระติกน้ำ 3L",                    total: 1  },
+        { name: "กล่องเวฟลาย Disney",              total: 10 },
+        { name: "แก้วน้ำทัมเบลอร์ 10 Oz",          total: 4  },
+        { name: "ชุดของเล่นเด็ก (เครื่องบิน)",     total: 8  },
+        { name: "เก้าลิ้นชักมินิ 3ชั้น",           total: 5  },
+        { name: "ของเล่นที่ตักทราย",               total: 1  }
+    ];
 
-        // Load data from localStorage on page load
-        window.onload = function() {
-            loadFromLocalStorage();
-            updateStats();
-        };
+    let employeeData = [];
+    let records = [];
+    let debugMode = false;
 
-        // File upload handler
-        document.getElementById('fileInput').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                document.getElementById('fileName').textContent = `ไฟล์ที่เลือก: ${file.name}`;
-                readExcelFile(file);
-            }
-        });
+    window.onload = function() {
+        loadFromLocalStorage();
+        updateStats();
+        renderPrizeOverview();
+    };
 
-        // Read Excel file - ปรับปรุงใหม่ รองรับทุกรูปแบบ
-        function readExcelFile(file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = new Uint8Array(e.target.result);
-                    const workbook = XLSX.read(data, {type: 'array'});
-                    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-                    
-                    // อ่านข้อมูลแบบ Array แทน JSON
-                    const rawData = XLSX.utils.sheet_to_json(firstSheet, {
-                        header: 1,  // อ่านเป็น array
-                        raw: false,
-                        defval: ''
-                    });
-                    
-                    debugLog('Raw Data (First 10 rows):', rawData.slice(0, 10));
-                    
-                    if (rawData.length < 2) {
-                        showAlert('error', 'ไม่พบข้อมูลในไฟล์');
-                        return;
-                    }
-                    
-                    // หา column index ของแต่ละข้อมูล
-                    const headers = rawData[0];
-                    let empIdCol = -1, functionCol = -1, nameCol = -1;
-                    
-                    // ค้นหา column ที่มี Emp-ID
-                    for (let i = 0; i < headers.length; i++) {
-                        const header = String(headers[i] || '').trim().toLowerCase();
-                        
-                        if (empIdCol === -1 && (
-                            header.includes('emp') || 
-                            header.includes('รหัส') ||
-                            header.includes('id')
-                        )) {
-                            empIdCol = i;
-                        }
-                        
-                        if (functionCol === -1 && (
-                            header.includes('function') ||
-                            header.includes('department') ||
-                            header.includes('แผนก') ||
-                            header.includes('หน่วย')
-                        )) {
-                            functionCol = i;
-                        }
-                        
-                        if (nameCol === -1 && (
-                            header.includes('name') ||
-                            header.includes('ชื่อ')
-                        )) {
-                            nameCol = i;
-                        }
-                    }
-                    
-                    // ถ้าไม่เจอ ให้ใช้ 3 column แรก
-                    if (empIdCol === -1) empIdCol = 0;
-                    if (functionCol === -1) functionCol = 1;
-                    if (nameCol === -1) nameCol = 2;
-                    
-                    debugLog('Column Indexes:', {
-                        empIdCol,
-                        functionCol,
-                        nameCol,
-                        headers
-                    });
-                    
-                    // แปลงข้อมูล
-                    employeeData = [];
-                    for (let i = 1; i < rawData.length; i++) {
-                        const row = rawData[i];
-                        if (!row || row.length === 0) continue;
-                        
-                        const empId = normalizeEmpId(row[empIdCol]);
-                        if (!empId) continue;
-                        
-                        employeeData.push({
-                            empId: empId,
-                            function: String(row[functionCol] || '').trim(),
-                            name: String(row[nameCol] || '').trim(),
-                            rawData: row
-                        });
-                    }
-                    
-                    debugLog('Processed Employee Data (First 10):', employeeData.slice(0, 10));
+    // ===== FILE UPLOAD =====
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            document.getElementById('fileName').textContent = 'ไฟล์ที่เลือก: ' + file.name;
+            readExcelFile(file);
+        }
+    });
 
-                    if (employeeData.length > 0) {
-                        showAlert('success', `✅ โหลดข้อมูลสำเร็จ! พบพนักงาน ${employeeData.length} คน<br>ลองกด "ดูตัวอย่างข้อมูล" เพื่อเช็คว่าอ่านถูกต้อง`);
-                        document.getElementById('totalEmployees').textContent = employeeData.length;
-                        document.getElementById('employeeStats').style.display = 'grid';
-                        saveToLocalStorage();
-                    } else {
-                        showAlert('error', 'ไม่พบข้อมูลที่ถูกต้องในไฟล์');
-                    }
-                } catch (error) {
-                    debugLog('Error:', error);
-                    showAlert('error', 'เกิดข้อผิดพลาดในการอ่านไฟล์: ' + error.message);
+    function readExcelFile(file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                const rawData = XLSX.utils.sheet_to_json(firstSheet, { header: 1, raw: false, defval: '' });
+
+                debugLog('Raw Data (First 10 rows):', rawData.slice(0, 10));
+
+                if (rawData.length < 2) { showAlert('error', 'ไม่พบข้อมูลในไฟล์'); return; }
+
+                const headers = rawData[0];
+                let empIdCol = -1, functionCol = -1, nameCol = -1;
+
+                for (let i = 0; i < headers.length; i++) {
+                    const header = String(headers[i] || '').trim().toLowerCase();
+                    if (empIdCol === -1 && (header.includes('emp') || header.includes('รหัส') || header.includes('id'))) empIdCol = i;
+                    if (functionCol === -1 && (header.includes('function') || header.includes('department') || header.includes('แผนก') || header.includes('หน่วย'))) functionCol = i;
+                    if (nameCol === -1 && (header.includes('name') || header.includes('ชื่อ'))) nameCol = i;
                 }
-            };
-            reader.readAsArrayBuffer(file);
-        }
 
-        // Normalize Emp-ID
-        function normalizeEmpId(empId) {
-            if (!empId) return '';
-            return String(empId).trim().replace(/\s+/g, '').replace(/^0+/, '');
-        }
+                if (empIdCol === -1) empIdCol = 0;
+                if (functionCol === -1) functionCol = 1;
+                if (nameCol === -1) nameCol = 2;
 
-        // Auto-fill employee data
-        document.getElementById('empId').addEventListener('input', function(e) {
-            const empId = normalizeEmpId(e.target.value);
-            
-            if (empId === '') {
-                document.getElementById('empFunction').value = '';
-                document.getElementById('empName').value = '';
-                return;
-            }
-
-            debugLog('🔍 Searching for Emp-ID:', empId);
-            
-            const employee = employeeData.find(emp => emp.empId === empId);
-            
-            if (employee) {
-                document.getElementById('empFunction').value = employee.function;
-                document.getElementById('empName').value = employee.name;
-                showAlert('info', `✅ พบข้อมูลพนักงาน: ${employee.name} (${employee.function})`);
-                debugLog('✅ Found:', employee);
-            } else {
-                document.getElementById('empFunction').value = '';
-                document.getElementById('empName').value = '';
-                if (empId.length >= 4) {
-                    showAlert('warning', `❌ ไม่พบข้อมูล Emp-ID: ${empId}`);
-                    debugLog('❌ Not found. Available IDs:', employeeData.map(e => e.empId).slice(0, 20));
+                employeeData = [];
+                for (let i = 1; i < rawData.length; i++) {
+                    const row = rawData[i];
+                    if (!row || row.length === 0) continue;
+                    const empId = normalizeEmpId(row[empIdCol]);
+                    if (!empId) continue;
+                    employeeData.push({
+                        empId: empId,
+                        function: String(row[functionCol] || '').trim(),
+                        name: String(row[nameCol] || '').trim(),
+                    });
                 }
-            }
-        });
 
-        // Add record
-        function addRecord() {
-            const prizeName = document.getElementById('prizeName').value.trim();
-            const prizeQuantity = parseInt(document.getElementById('prizeQuantity').value);
-            const empId = normalizeEmpId(document.getElementById('empId').value);
-            const empFunction = document.getElementById('empFunction').value.trim();
-            const empName = document.getElementById('empName').value.trim();
-
-            if (!prizeName) {
-                showAlert('error', 'กรุณากรอกชื่อของรางวัล');
-                return;
-            }
-
-            if (!prizeQuantity || prizeQuantity < 1) {
-                showAlert('error', 'กรุณากรอกจำนวนของรางวัลที่ถูกต้อง');
-                return;
-            }
-
-            if (!empId) {
-                showAlert('error', 'กรุณากรอก Emp-ID');
-                return;
-            }
-
-            if (!empFunction || !empName) {
-                showAlert('error', 'ไม่พบข้อมูลพนักงาน กรุณาตรวจสอบ Emp-ID');
-                return;
-            }
-
-            const record = {
-                id: Date.now(),
-                prizeName,
-                prizeQuantity,
-                empId,
-                empFunction,
-                empName,
-                date: new Date().toLocaleDateString('th-TH')
-            };
-
-            records.push(record);
-            displayRecords();
-            clearForm();
-            updateStats();
-            saveToLocalStorage();
-            showAlert('success', '✅ บันทึกข้อมูลสำเร็จ!');
-        }
-
-        // Display records
-        function displayRecords() {
-            const tbody = document.getElementById('recordsBody');
-            
-            if (records.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="8" style="text-align: center; color: #999;">
-                            ยังไม่มีข้อมูล กรุณาบันทึกข้อมูลของรางวัล
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-
-            tbody.innerHTML = records.map((record, index) => `
-                <tr>
-                    <td>${index + 1}</td>
-                    <td>${record.prizeName}</td>
-                    <td>${record.prizeQuantity}</td>
-                    <td>${record.empId}</td>
-                    <td>${record.empFunction}</td>
-                    <td>${record.empName}</td>
-                    <td>${record.date}</td>
-                    <td>
-                        <button class="delete-btn" onclick="deleteRecord(${record.id})">
-                            🗑️ ลบ
-                        </button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        // Delete record
-        function deleteRecord(id) {
-            if (confirm('คุณต้องการลบรายการนี้ใช่หรือไม่?')) {
-                records = records.filter(record => record.id !== id);
-                displayRecords();
-                updateStats();
-                saveToLocalStorage();
-                showAlert('success', 'ลบรายการสำเร็จ');
-            }
-        }
-
-        // Clear all records
-        function clearAllRecords() {
-            if (confirm('คุณต้องการลบข้อมูลทั้งหมดใช่หรือไม่?')) {
-                records = [];
-                displayRecords();
-                updateStats();
-                saveToLocalStorage();
-                showAlert('success', 'ลบข้อมูลทั้งหมดสำเร็จ');
-            }
-        }
-
-        // Clear form
-        function clearForm() {
-            document.getElementById('prizeName').value = '';
-            document.getElementById('prizeQuantity').value = '1';
-            document.getElementById('empId').value = '';
-            document.getElementById('empFunction').value = '';
-            document.getElementById('empName').value = '';
-        }
-
-        // Update statistics
-        function updateStats() {
-            document.getElementById('totalRecords').textContent = records.length;
-            const totalPrizes = records.reduce((sum, record) => sum + record.prizeQuantity, 0);
-            document.getElementById('totalPrizes').textContent = totalPrizes;
-        }
-
-        // Export to Excel
-        function exportToExcel() {
-            if (records.length === 0) {
-                showAlert('error', 'ไม่มีข้อมูลให้ Export');
-                return;
-            }
-
-            const exportData = records.map((record, index) => ({
-                'ลำดับ': index + 1,
-                'ชื่อของรางวัล': record.prizeName,
-                'จำนวน': record.prizeQuantity,
-                'Emp-ID': record.empId,
-                'Function': record.empFunction,
-                'Name': record.empName,
-                'วันที่บันทึก': record.date
-            }));
-
-            const ws = XLSX.utils.json_to_sheet(exportData);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, 'Prize Records');
-
-            const fileName = `Prize_Records_${new Date().toISOString().split('T')[0]}.xlsx`;
-            XLSX.writeFile(wb, fileName);
-
-            showAlert('success', `Export สำเร็จ! ไฟล์: ${fileName}`);
-        }
-
-        // Show alert
-        function showAlert(type, message) {
-            const alertTypes = ['success', 'error', 'info', 'warning'];
-            alertTypes.forEach(t => {
-                const alert = document.getElementById(`alert${t.charAt(0).toUpperCase() + t.slice(1)}`);
-                alert.style.display = 'none';
-            });
-
-            const alert = document.getElementById(`alert${type.charAt(0).toUpperCase() + type.slice(1)}`);
-            alert.innerHTML = message;
-            alert.style.display = 'block';
-
-            setTimeout(() => {
-                alert.style.display = 'none';
-            }, 6000);
-        }
-
-        // Debug functions
-        function toggleDebug() {
-            debugMode = !debugMode;
-            const debugInfo = document.getElementById('debugInfo');
-            debugInfo.style.display = debugMode ? 'block' : 'none';
-            
-            if (debugMode && employeeData.length > 0) {
-                debugLog('📊 Employee Data Summary:', {
-                    total: employeeData.length,
-                    first10: employeeData.slice(0, 10),
-                    allEmpIds: employeeData.map(e => e.empId).slice(0, 50)
-                });
-            }
-        }
-
-        function debugLog(label, data) {
-            const debugInfo = document.getElementById('debugInfo');
-            const timestamp = new Date().toLocaleTimeString('th-TH');
-            debugInfo.innerHTML += `<div style="margin-bottom: 15px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
-                <strong style="color: #d9534f;">[${timestamp}] ${label}</strong><br>
-                <pre>${JSON.stringify(data, null, 2)}</pre>
-            </div>`;
-            debugInfo.scrollTop = debugInfo.scrollHeight;
-        }
-
-        function showSampleData() {
-            if (employeeData.length === 0) {
-                showAlert('warning', 'กรุณาอัพโหลดไฟล์ Excel ก่อน');
-                return;
-            }
-            
-            const sample = employeeData.slice(0, 10);
-            let message = '<strong>📋 ตัวอย่างข้อมูล 10 คนแรก:</strong><br><br>';
-            message += '<div style="font-family: monospace; font-size: 0.9em; line-height: 1.8;">';
-            sample.forEach((emp, i) => {
-                message += `<strong>${i + 1}.</strong> ID: <span style="background: #ffffcc; padding: 2px 5px; border-radius: 3px;">${emp.empId}</span> | Function: ${emp.function || '-'} | Name: ${emp.name || '-'}<br>`;
-            });
-            message += '</div>';
-            message += '<br><strong>💡 ลองคัดลอก ID ด้านบนไปลองกรอกดูครับ</strong>';
-            showAlert('info', message);
-        }
-
-        // Save/Load localStorage
-        function saveToLocalStorage() {
-            localStorage.setItem('prizeRecords', JSON.stringify(records));
-            localStorage.setItem('employeeData', JSON.stringify(employeeData));
-        }
-
-        function loadFromLocalStorage() {
-            const savedRecords = localStorage.getItem('prizeRecords');
-            const savedEmployees = localStorage.setItem('employeeData');
-
-            if (savedRecords) {
-                records = JSON.parse(savedRecords);
-                displayRecords();
-            }
-
-            if (savedEmployees) {
-                employeeData = JSON.parse(savedEmployees);
                 if (employeeData.length > 0) {
+                    showAlert('success', '✅ โหลดข้อมูลสำเร็จ! พบพนักงาน ' + employeeData.length + ' คน');
                     document.getElementById('totalEmployees').textContent = employeeData.length;
                     document.getElementById('employeeStats').style.display = 'grid';
+                    saveToLocalStorage();
+                } else {
+                    showAlert('error', 'ไม่พบข้อมูลที่ถูกต้องในไฟล์');
                 }
+            } catch (error) {
+                showAlert('error', 'เกิดข้อผิดพลาด: ' + error.message);
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    function normalizeEmpId(empId) {
+        if (!empId) return '';
+        return String(empId).trim().replace(/\s+/g, '').replace(/^0+/, '');
+    }
+
+    // ===== EMP-ID AUTO FILL =====
+    document.getElementById('empId').addEventListener('input', function(e) {
+        const empId = normalizeEmpId(e.target.value);
+        if (empId === '') {
+            document.getElementById('empFunction').value = '';
+            document.getElementById('empName').value = '';
+            return;
+        }
+        const employee = employeeData.find(emp => emp.empId === empId);
+        if (employee) {
+            document.getElementById('empFunction').value = employee.function;
+            document.getElementById('empName').value = employee.name;
+            showAlert('info', '✅ พบข้อมูลพนักงาน: ' + employee.name + ' (' + employee.function + ')');
+        } else {
+            document.getElementById('empFunction').value = '';
+            document.getElementById('empName').value = '';
+            if (empId.length >= 4) showAlert('warning', '❌ ไม่พบข้อมูล Emp-ID: ' + empId);
+        }
+    });
+
+    // ===== PRIZE SELECT =====
+    function onPrizeSelect() {
+        const sel = document.getElementById('prizeName');
+        const selectedName = sel.value;
+        const infoArea = document.getElementById('prizeInfoArea');
+
+        if (!selectedName) { infoArea.style.display = 'none'; return; }
+
+        const prize = PRIZE_CATALOG.find(p => p.name === selectedName);
+        if (!prize) { infoArea.style.display = 'none'; return; }
+
+        const used = records.filter(r => r.prizeName === selectedName).reduce((s, r) => s + r.prizeQuantity, 0);
+        const remaining = prize.total - used;
+
+        document.getElementById('prizeTotalBadge').textContent = 'ทั้งหมด: ' + prize.total + ' ชิ้น';
+
+        const badge = document.getElementById('prizeRemainingBadge');
+        badge.textContent = 'คงเหลือ: ' + remaining + ' ชิ้น';
+        badge.className = 'prize-remaining ' + (remaining > 2 ? 'ok' : remaining > 0 ? 'warn' : 'empty');
+
+        infoArea.style.display = 'block';
+
+        // set quantity max
+        document.getElementById('prizeQuantity').max = remaining;
+        document.getElementById('prizeQuantity').value = remaining > 0 ? 1 : 0;
+    }
+
+    // ===== ADD RECORD =====
+    function addRecord() {
+        const prizeName = document.getElementById('prizeName').value;
+        const prizeQuantity = parseInt(document.getElementById('prizeQuantity').value);
+        const empId = normalizeEmpId(document.getElementById('empId').value);
+        const empFunction = document.getElementById('empFunction').value.trim();
+        const empName = document.getElementById('empName').value.trim();
+
+        if (!prizeName) { showAlert('error', 'กรุณาเลือกชื่อของรางวัล'); return; }
+        if (!prizeQuantity || prizeQuantity < 1) { showAlert('error', 'กรุณากรอกจำนวนที่ถูกต้อง'); return; }
+        if (!empId) { showAlert('error', 'กรุณากรอก Emp-ID'); return; }
+        if (!empFunction || !empName) { showAlert('error', 'ไม่พบข้อมูลพนักงาน กรุณาตรวจสอบ Emp-ID'); return; }
+
+        // Check remaining
+        const prize = PRIZE_CATALOG.find(p => p.name === prizeName);
+        if (prize) {
+            const used = records.filter(r => r.prizeName === prizeName).reduce((s, r) => s + r.prizeQuantity, 0);
+            const remaining = prize.total - used;
+            if (prizeQuantity > remaining) {
+                showAlert('error', '❌ ของรางวัลนี้คงเหลือเพียง ' + remaining + ' ชิ้น ไม่สามารถบันทึกได้');
+                return;
             }
         }
-    </script>
+
+        records.push({
+            id: Date.now(),
+            prizeName,
+            prizeQuantity,
+            empId,
+            empFunction,
+            empName,
+            date: new Date().toLocaleDateString('th-TH')
+        });
+
+        displayRecords();
+        renderPrizeOverview();
+        onPrizeSelect();
+        clearForm();
+        updateStats();
+        saveToLocalStorage();
+        showAlert('success', '✅ บันทึกข้อมูลสำเร็จ!');
+    }
+
+    // ===== DISPLAY RECORDS =====
+    function displayRecords() {
+        const tbody = document.getElementById('recordsBody');
+        if (records.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#999;">ยังไม่มีข้อมูล กรุณาบันทึกข้อมูลของรางวัล</td></tr>';
+            return;
+        }
+        tbody.innerHTML = records.map((record, index) =>
+            '<tr>' +
+            '<td>' + (index + 1) + '</td>' +
+            '<td>' + record.prizeName + '</td>' +
+            '<td>' + record.prizeQuantity + '</td>' +
+            '<td>' + record.empId + '</td>' +
+            '<td>' + record.empFunction + '</td>' +
+            '<td>' + record.empName + '</td>' +
+            '<td>' + record.date + '</td>' +
+            '<td><button class="delete-btn" onclick="deleteRecord(' + record.id + ')">🗑️ ลบ</button></td>' +
+            '</tr>'
+        ).join('');
+    }
+
+    // ===== PRIZE OVERVIEW =====
+    function renderPrizeOverview() {
+        const grid = document.getElementById('prizeOverviewGrid');
+        grid.innerHTML = PRIZE_CATALOG.map((prize, idx) => {
+            const used = records.filter(r => r.prizeName === prize.name).reduce((s, r) => s + r.prizeQuantity, 0);
+            const remaining = prize.total - used;
+            const cls = remaining > 2 ? 'ok' : remaining > 0 ? 'warn' : 'empty';
+            return '<div class="prize-item">' +
+                '<div class="prize-item-name">' + (idx + 1) + '. ' + prize.name + '</div>' +
+                '<div class="prize-item-nums">' +
+                '<span class="prize-total">ทั้งหมด ' + prize.total + '</span>' +
+                '<span class="prize-used">ใช้ ' + used + '</span>' +
+                '<span class="prize-left ' + cls + '">เหลือ ' + remaining + '</span>' +
+                '</div>' +
+                '</div>';
+        }).join('');
+    }
+
+    // ===== DELETE =====
+    function deleteRecord(id) {
+        if (confirm('คุณต้องการลบรายการนี้ใช่หรือไม่?')) {
+            records = records.filter(r => r.id !== id);
+            displayRecords();
+            renderPrizeOverview();
+            onPrizeSelect();
+            updateStats();
+            saveToLocalStorage();
+            showAlert('success', 'ลบรายการสำเร็จ');
+        }
+    }
+
+    function clearAllRecords() {
+        if (confirm('คุณต้องการลบข้อมูลทั้งหมดใช่หรือไม่?')) {
+            records = [];
+            displayRecords();
+            renderPrizeOverview();
+            updateStats();
+            saveToLocalStorage();
+            showAlert('success', 'ลบข้อมูลทั้งหมดสำเร็จ');
+        }
+    }
+
+    function clearForm() {
+        document.getElementById('prizeName').value = '';
+        document.getElementById('prizeQuantity').value = '1';
+        document.getElementById('empId').value = '';
+        document.getElementById('empFunction').value = '';
+        document.getElementById('empName').value = '';
+        document.getElementById('prizeInfoArea').style.display = 'none';
+    }
+
+    function updateStats() {
+        document.getElementById('totalRecords').textContent = records.length;
+        document.getElementById('totalPrizes').textContent = records.reduce((s, r) => s + r.prizeQuantity, 0);
+    }
+
+    // ===== EXPORT =====
+    function exportToExcel() {
+        if (records.length === 0) { showAlert('error', 'ไม่มีข้อมูลให้ Export'); return; }
+        const exportData = records.map((r, i) => ({
+            'ลำดับ': i + 1,
+            'ชื่อของรางวัล': r.prizeName,
+            'จำนวน': r.prizeQuantity,
+            'Emp-ID': r.empId,
+            'Function': r.empFunction,
+            'Name': r.empName,
+            'วันที่บันทึก': r.date
+        }));
+        const ws = XLSX.utils.json_to_sheet(exportData);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Prize Records');
+        const fileName = 'Prize_Records_' + new Date().toISOString().split('T')[0] + '.xlsx';
+        XLSX.writeFile(wb, fileName);
+        showAlert('success', 'Export สำเร็จ! ไฟล์: ' + fileName);
+    }
+
+    // ===== ALERT =====
+    function showAlert(type, message) {
+        ['Success','Error','Info','Warning'].forEach(t => {
+            document.getElementById('alert' + t).style.display = 'none';
+        });
+        const alert = document.getElementById('alert' + type.charAt(0).toUpperCase() + type.slice(1));
+        alert.innerHTML = message;
+        alert.style.display = 'block';
+        setTimeout(() => { alert.style.display = 'none'; }, 6000);
+    }
+
+    // ===== DEBUG =====
+    function toggleDebug() {
+        debugMode = !debugMode;
+        document.getElementById('debugInfo').style.display = debugMode ? 'block' : 'none';
+        if (debugMode && employeeData.length > 0) {
+            debugLog('Employee Data Summary', { total: employeeData.length, first10: employeeData.slice(0, 10) });
+        }
+    }
+
+    function debugLog(label, data) {
+        const debugInfo = document.getElementById('debugInfo');
+        const timestamp = new Date().toLocaleTimeString('th-TH');
+        debugInfo.innerHTML += '<div style="margin-bottom:15px;border-bottom:1px solid #ccc;padding-bottom:10px;"><strong style="color:#d9534f;">[' + timestamp + '] ' + label + '</strong><br><pre>' + JSON.stringify(data, null, 2) + '</pre></div>';
+        debugInfo.scrollTop = debugInfo.scrollHeight;
+    }
+
+    function showSampleData() {
+        if (employeeData.length === 0) { showAlert('warning', 'กรุณาอัพโหลดไฟล์ Excel ก่อน'); return; }
+        const sample = employeeData.slice(0, 10);
+        let message = '<strong>📋 ตัวอย่างข้อมูล 10 คนแรก:</strong><br><br><div style="font-family:monospace;font-size:0.9em;line-height:1.8;">';
+        sample.forEach((emp, i) => {
+            message += '<strong>' + (i+1) + '.</strong> ID: <span style="background:#ffffcc;padding:2px 5px;border-radius:3px;">' + emp.empId + '</span> | Function: ' + (emp.function || '-') + ' | Name: ' + (emp.name || '-') + '<br>';
+        });
+        message += '</div><br><strong>💡 ลองคัดลอก ID ไปลองกรอกดูครับ</strong>';
+        showAlert('info', message);
+    }
+
+    // ===== LOCALSTORAGE =====
+    function saveToLocalStorage() {
+        localStorage.setItem('prizeRecords', JSON.stringify(records));
+        localStorage.setItem('employeeData', JSON.stringify(employeeData));
+    }
+
+    function loadFromLocalStorage() {
+        const savedRecords = localStorage.getItem('prizeRecords');
+        const savedEmployees = localStorage.getItem('employeeData');
+        if (savedRecords) { records = JSON.parse(savedRecords); displayRecords(); }
+        if (savedEmployees) {
+            employeeData = JSON.parse(savedEmployees);
+            if (employeeData.length > 0) {
+                document.getElementById('totalEmployees').textContent = employeeData.length;
+                document.getElementById('employeeStats').style.display = 'grid';
+            }
+        }
+    }
+</script>
 </body>
 </html>
