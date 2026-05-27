@@ -27,218 +27,285 @@
             padding: 30px;
             text-align: center;
         }
-        .header h1 { font-size: 2.5em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
-        .header p { font-size: 1.1em; opacity: 0.9; }
-        .content { padding: 30px; }
+        .header h1 { font-size: 2.2em; margin-bottom: 8px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .header p { font-size: 1em; opacity: 0.9; }
+        .content { padding: 24px; }
         .section {
             background: #f8f9fa;
             border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 25px;
+            padding: 20px;
+            margin-bottom: 20px;
             border-left: 5px solid #667eea;
         }
         .section-title {
-            font-size: 1.5em;
+            font-size: 1.3em;
             color: #667eea;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
+            gap: 8px;
+            font-weight: 700;
+        }
+
+        /* ===== PRIZE GRID ===== */
+        .prize-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
         }
-        .form-group { margin-bottom: 20px; }
+        .prize-card {
+            background: white;
+            border-radius: 12px;
+            padding: 12px 14px;
+            border: 2px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+        .prize-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102,126,234,0.2);
+            transform: translateY(-1px);
+        }
+        .prize-card.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #f0f3ff, #f8f0ff);
+            box-shadow: 0 4px 16px rgba(102,126,234,0.35);
+        }
+        .prize-card.empty-card {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .prize-card.empty-card:hover {
+            transform: none;
+            box-shadow: none;
+            border-color: #e0e0e0;
+        }
+        .prize-card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+        .prize-card-num {
+            font-size: 10px;
+            font-weight: 700;
+            color: #999;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .prize-card-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #333;
+            flex: 1;
+            line-height: 1.3;
+        }
+        .prize-card.selected .prize-card-name { color: #667eea; }
+        .prize-card-badges {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            padding: 3px 9px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .badge-total { background: #667eea; color: white; }
+        .badge-used  { background: #f5576c; color: white; }
+        .badge-left-ok   { background: #d4edda; color: #155724; }
+        .badge-left-warn { background: #fff3cd; color: #856404; }
+        .badge-left-zero { background: #f8d7da; color: #721c24; }
+        .badge-label {
+            display: block;
+            font-size: 9px;
+            font-weight: 600;
+            opacity: 0.7;
+            margin-bottom: 1px;
+            text-align: center;
+        }
+        .badge-wrap { text-align: center; }
+
+        /* ===== FORM ===== */
+        .form-group { margin-bottom: 16px; }
         label {
             display: block;
             font-weight: 600;
             color: #333;
-            margin-bottom: 8px;
-            font-size: 1.05em;
+            margin-bottom: 6px;
+            font-size: 1em;
         }
-        input[type="text"], input[type="number"], select {
+        input[type="text"], input[type="number"] {
             width: 100%;
-            padding: 12px 15px;
+            padding: 11px 14px;
             border: 2px solid #e0e0e0;
             border-radius: 10px;
             font-size: 1em;
             transition: all 0.3s;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: inherit;
         }
-        input[type="text"]:focus, input[type="number"]:focus, select:focus {
+        input[type="text"]:focus, input[type="number"]:focus {
             border-color: #667eea;
             outline: none;
             box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
         }
-        input[type="text"]:disabled, input[type="number"]:disabled {
-            background-color: #f0f0f0;
+        input:disabled {
+            background: #f0f0f0;
             cursor: not-allowed;
         }
-        select {
-            background: white;
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23667eea' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 14px center;
-            padding-right: 40px;
-        }
-        .prize-info-badge {
-            display: inline-block;
-            margin-top: 8px;
-            padding: 6px 14px;
+
+        .selected-prize-display {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: 600;
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            display: none;
         }
-        .prize-remaining {
-            display: inline-block;
-            margin-top: 6px;
-            margin-left: 8px;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: 600;
+        .selected-prize-display .spd-name {
+            font-size: 1.1em;
+            font-weight: 700;
+            margin-bottom: 4px;
         }
-        .prize-remaining.ok { background: #d4edda; color: #155724; }
-        .prize-remaining.warn { background: #fff3cd; color: #856404; }
-        .prize-remaining.empty { background: #f8d7da; color: #721c24; }
+        .selected-prize-display .spd-info {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        .spd-badges { display: flex; gap: 8px; margin-top: 8px; }
+        .spd-badge {
+            padding: 3px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .spd-total { background: rgba(255,255,255,0.25); color: white; }
+        .spd-used  { background: #f5576c; color: white; }
+        .spd-left-ok   { background: #28a745; color: white; }
+        .spd-left-warn { background: #ffc107; color: #333; }
+        .spd-left-zero { background: #dc3545; color: white; }
+
+        .qty-row { display: flex; gap: 10px; align-items: center; }
+        .qty-row input { flex: 1; }
+        .qty-btn {
+            width: 42px; height: 42px;
+            border-radius: 10px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            font-size: 1.4em;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+        .qty-btn:hover { background: #667eea; color: white; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
         .btn {
-            padding: 12px 30px;
+            padding: 11px 24px;
             border: none;
             border-radius: 10px;
-            font-size: 1.05em;
-            font-weight: 600;
+            font-size: 1em;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            gap: 7px;
+            font-family: inherit;
         }
-        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102,126,234,0.4); }
-        .btn-success { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; }
+        .btn-success { background: linear-gradient(135deg, #11998e, #38ef7d); color: white; }
         .btn-success:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(56,239,125,0.4); }
-        .btn-export { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .btn-export { background: linear-gradient(135deg, #f093fb, #f5576c); color: white; }
         .btn-export:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(245,87,108,0.4); }
-        .btn-debug { background: linear-gradient(135deg, #ffa751 0%, #ffe259 100%); color: #333; }
-        .btn-group { display: flex; gap: 15px; flex-wrap: wrap; }
+        .btn-danger { background: linear-gradient(135deg, #ff6b6b, #ee0979); color: white; }
+        .btn-group { display: flex; gap: 12px; flex-wrap: wrap; }
+
         .alert {
-            padding: 15px 20px;
+            padding: 14px 18px;
             border-radius: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             display: none;
+            font-weight: 500;
         }
         .alert-success { background: #d4edda; color: #155724; border-left: 5px solid #28a745; }
-        .alert-error { background: #f8d7da; color: #721c24; border-left: 5px solid #dc3545; }
-        .alert-info { background: #d1ecf1; color: #0c5460; border-left: 5px solid #17a2b8; }
+        .alert-error   { background: #f8d7da; color: #721c24; border-left: 5px solid #dc3545; }
+        .alert-info    { background: #d1ecf1; color: #0c5460; border-left: 5px solid #17a2b8; }
         .alert-warning { background: #fff3cd; color: #856404; border-left: 5px solid #ffc107; }
+
+        /* ===== TABLE ===== */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
             background: white;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
         }
         th {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            padding: 15px;
+            padding: 13px 14px;
             text-align: left;
             font-weight: 600;
-        }
-        td { padding: 12px 15px; border-bottom: 1px solid #e0e0e0; }
-        tr:hover { background-color: #f8f9fa; }
-        .delete-btn {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 5px;
-            cursor: pointer;
             font-size: 0.9em;
         }
+        td { padding: 11px 14px; border-bottom: 1px solid #f0f0f0; font-size: 0.9em; }
+        tr:hover td { background: #f8f9fa; }
+        .delete-btn {
+            background: #dc3545; color: white;
+            border: none; padding: 5px 11px;
+            border-radius: 6px; cursor: pointer;
+            font-size: 0.85em; font-family: inherit;
+        }
         .delete-btn:hover { background: #c82333; }
+
         .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
         }
         .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            padding: 20px;
-            border-radius: 15px;
+            padding: 18px;
+            border-radius: 14px;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
-        .stat-card h3 { font-size: 2em; margin-bottom: 5px; }
-        .stat-card p { opacity: 0.9; font-size: 1em; }
-        .file-upload-wrapper { position: relative; display: inline-block; width: 100%; }
+        .stat-card h3 { font-size: 1.8em; margin-bottom: 4px; }
+        .stat-card p { opacity: 0.9; font-size: 0.9em; }
+
         .file-upload-label {
             display: inline-block;
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 11px 24px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border-radius: 10px;
             cursor: pointer;
+            font-weight: 700;
             transition: all 0.3s;
-            font-weight: 600;
         }
         .file-upload-label:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102,126,234,0.4); }
         #fileInput { display: none; }
-        .file-name { margin-top: 10px; color: #666; font-style: italic; }
-        .debug-info {
-            background: #fff3cd;
-            border: 2px solid #ffc107;
-            border-radius: 10px;
-            padding: 15px;
-            margin-top: 15px;
-            font-family: monospace;
-            font-size: 0.9em;
-            max-height: 400px;
-            overflow-y: auto;
-            display: none;
-        }
-        .debug-info pre { white-space: pre-wrap; word-wrap: break-word; }
-
-        /* Prize grid for overview */
-        .prize-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 12px;
-            margin-top: 16px;
-        }
-        .prize-item {
-            background: white;
-            border-radius: 10px;
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border: 2px solid #e0e0e0;
-            transition: all 0.2s;
-        }
-        .prize-item:hover { border-color: #667eea; box-shadow: 0 2px 8px rgba(102,126,234,0.15); }
-        .prize-item-name { font-weight: 600; color: #333; font-size: 0.95em; }
-        .prize-item-nums { display: flex; align-items: center; gap: 8px; }
-        .prize-total { background: #667eea; color: white; padding: 3px 10px; border-radius: 12px; font-size: 0.85em; font-weight: 700; }
-        .prize-used { background: #f5576c; color: white; padding: 3px 10px; border-radius: 12px; font-size: 0.85em; font-weight: 700; }
-        .prize-left { padding: 3px 10px; border-radius: 12px; font-size: 0.85em; font-weight: 700; }
-        .prize-left.ok { background: #d4edda; color: #155724; }
-        .prize-left.warn { background: #fff3cd; color: #856404; }
-        .prize-left.empty { background: #f8d7da; color: #721c24; }
+        .file-name { margin-top: 8px; color: #666; font-style: italic; font-size: 0.9em; }
 
         @media (max-width: 768px) {
-            .header h1 { font-size: 1.8em; }
-            .content { padding: 20px; }
-            .btn-group { flex-direction: column; }
-            .btn { width: 100%; justify-content: center; }
-            table { font-size: 0.9em; }
-            th, td { padding: 10px; }
+            .prize-grid { grid-template-columns: repeat(2, 1fr); }
+            .form-row { grid-template-columns: 1fr; }
+            .header h1 { font-size: 1.6em; }
+            .content { padding: 16px; }
+        }
+        @media (max-width: 480px) {
+            .prize-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -246,12 +313,13 @@
 <div class="container">
     <div class="header">
         <h1>🎁 ระบบจัดการของรางวัล</h1>
-        <p>Prize Management System</p>
+        <p>Prize Management System — คลิกเลือกของรางวัลได้เลย</p>
     </div>
     <div class="content">
+
         <div id="alertSuccess" class="alert alert-success"></div>
-        <div id="alertError" class="alert alert-error"></div>
-        <div id="alertInfo" class="alert alert-info"></div>
+        <div id="alertError"   class="alert alert-error"></div>
+        <div id="alertInfo"    class="alert alert-info"></div>
         <div id="alertWarning" class="alert alert-warning"></div>
 
         <!-- Section 1: Upload -->
@@ -259,18 +327,14 @@
             <div class="section-title">📤 ขั้นตอนที่ 1: อัพโหลดข้อมูลพนักงาน</div>
             <div class="form-group">
                 <label>เลือกไฟล์ Excel ข้อมูลพนักงาน</label>
-                <div class="file-upload-wrapper">
-                    <label for="fileInput" class="file-upload-label">📁 เลือกไฟล์ Excel</label>
-                    <input type="file" id="fileInput" accept=".xlsx,.xls">
-                    <div id="fileName" class="file-name"></div>
-                </div>
+                <label for="fileInput" class="file-upload-label">📁 เลือกไฟล์ Excel</label>
+                <input type="file" id="fileInput" accept=".xlsx,.xls">
+                <div id="fileName" class="file-name"></div>
             </div>
             <div class="btn-group">
-                <button class="btn btn-debug" onclick="toggleDebug()">🔍 แสดงข้อมูล Debug</button>
                 <button class="btn btn-primary" onclick="showSampleData()">📋 ดูตัวอย่างข้อมูล</button>
             </div>
-            <div id="debugInfo" class="debug-info"></div>
-            <div class="stats" id="employeeStats" style="display:none;">
+            <div class="stats" id="employeeStats" style="display:none; margin-top:16px;">
                 <div class="stat-card">
                     <h3 id="totalEmployees">0</h3>
                     <p>จำนวนพนักงานทั้งหมด</p>
@@ -278,44 +342,32 @@
             </div>
         </div>
 
-        <!-- Section 2: Prize Entry -->
+        <!-- Section 2: Prize Grid Click -->
         <div class="section">
-            <div class="section-title">🎯 ขั้นตอนที่ 2: บันทึกข้อมูลของรางวัล</div>
+            <div class="section-title">🎯 ขั้นตอนที่ 2: เลือกของรางวัล (คลิกเลยครับ)</div>
+            <div class="prize-grid" id="prizeGrid"></div>
+        </div>
 
-            <div class="form-group">
-                <label>ชื่อของรางวัล *</label>
-                <select id="prizeName" onchange="onPrizeSelect()">
-                    <option value="">-- กรุณาเลือกของรางวัล --</option>
-                    <option value="หม้อหุงข้าว" data-qty="2">หม้อหุงข้าว</option>
-                    <option value="หม้อสุกี้" data-qty="2">หม้อสุกี้</option>
-                    <option value="กระติกน้ำสีชมพู" data-qty="2">กระติกน้ำสีชมพู</option>
-                    <option value="กระเป๋าเป้" data-qty="6">กระเป๋าเป้</option>
-                    <option value="เบาะรองนั่ง" data-qty="6">เบาะรองนั่ง</option>
-                    <option value="กล่องข้าว+ช้อน" data-qty="10">กล่องข้าว+ช้อน</option>
-                    <option value="กล่องข้าว" data-qty="6">กล่องข้าว</option>
-                    <option value="ชุดเซ็ทช้อนส้อม" data-qty="10">ชุดเซ็ทช้อนส้อม</option>
-                    <option value="กระบอกน้ำ" data-qty="18">กระบอกน้ำ</option>
-                    <option value="แก้วน้ำ" data-qty="10">แก้วน้ำ</option>
-                    <option value="พัดใหญ่" data-qty="8">พัดใหญ่</option>
-                    <option value="เซ็ทแปรงสีฟัน" data-qty="5">เซ็ทแปรงสีฟัน</option>
-                    <option value="หมอนลายดิสนีย์" data-qty="4">หมอนลายดิสนีย์</option>
-                    <option value="กระบอกน้ำลายสนูปปี้" data-qty="10">กระบอกน้ำลายสนูปปี้</option>
-                    <option value="กระติกน้ำ 3L" data-qty="1">กระติกน้ำ 3L</option>
-                    <option value="กล่องเวฟลาย Disney" data-qty="10">กล่องเวฟลาย Disney</option>
-                    <option value="แก้วน้ำทัมเบลอร์ 10 Oz" data-qty="4">แก้วน้ำทัมเบลอร์ 10 Oz</option>
-                    <option value="ชุดของเล่นเด็ก (เครื่องบิน)" data-qty="8">ชุดของเล่นเด็ก (เครื่องบิน)</option>
-                    <option value="เก้าลิ้นชักมินิ 3ชั้น" data-qty="5">เก้าลิ้นชักมินิ 3ชั้น</option>
-                    <option value="ของเล่นที่ตักทราย" data-qty="1">ของเล่นที่ตักทราย</option>
-                </select>
-                <div id="prizeInfoArea" style="margin-top:8px; display:none;">
-                    <span class="prize-info-badge" id="prizeTotalBadge"></span>
-                    <span class="prize-remaining" id="prizeRemainingBadge"></span>
+        <!-- Section 3: Form -->
+        <div class="section">
+            <div class="section-title">✏️ ขั้นตอนที่ 3: กรอกข้อมูลผู้รับรางวัล</div>
+
+            <div id="selectedPrizeDisplay" class="selected-prize-display">
+                <div class="spd-name" id="spdName">—</div>
+                <div class="spd-badges">
+                    <span class="spd-badge spd-total" id="spdTotal"></span>
+                    <span class="spd-badge spd-used"  id="spdUsed"></span>
+                    <span class="spd-badge" id="spdLeft"></span>
                 </div>
             </div>
 
             <div class="form-group">
                 <label>จำนวนของรางวัล *</label>
-                <input type="number" id="prizeQuantity" placeholder="เช่น 1" min="1" value="1">
+                <div class="qty-row">
+                    <button class="qty-btn" onclick="changeQty(-1)">−</button>
+                    <input type="number" id="prizeQuantity" value="1" min="1">
+                    <button class="qty-btn" onclick="changeQty(1)">+</button>
+                </div>
             </div>
 
             <div class="form-group">
@@ -323,14 +375,15 @@
                 <input type="text" id="empId" placeholder="กรอกรหัสพนักงาน เช่น 7126911">
             </div>
 
-            <div class="form-group">
-                <label>Function (แสดงอัตโนมัติ)</label>
-                <input type="text" id="empFunction" disabled placeholder="แสดงอัตโนมัติเมื่อกรอก Emp-ID">
-            </div>
-
-            <div class="form-group">
-                <label>Name (แสดงอัตโนมัติ)</label>
-                <input type="text" id="empName" disabled placeholder="แสดงอัตโนมัติเมื่อกรอก Emp-ID">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Function (อัตโนมัติ)</label>
+                    <input type="text" id="empFunction" disabled placeholder="—">
+                </div>
+                <div class="form-group">
+                    <label>Name (อัตโนมัติ)</label>
+                    <input type="text" id="empName" disabled placeholder="—">
+                </div>
             </div>
 
             <div class="btn-group">
@@ -339,56 +392,48 @@
             </div>
         </div>
 
-        <!-- Section 3: Prize Overview -->
+        <!-- Section 4: Table -->
         <div class="section">
-            <div class="section-title">📦 สรุปสถานะของรางวัล</div>
-            <div class="prize-grid" id="prizeOverviewGrid"></div>
-        </div>
-
-        <!-- Section 4: Records Table -->
-        <div class="section">
-            <div class="section-title">📊 ขั้นตอนที่ 3: รายการบันทึก</div>
-            <div class="stats" style="margin-bottom:20px;">
+            <div class="section-title">📊 รายการบันทึกทั้งหมด</div>
+            <div class="stats">
                 <div class="stat-card">
                     <h3 id="totalRecords">0</h3>
-                    <p>จำนวนรายการทั้งหมด</p>
+                    <p>รายการทั้งหมด</p>
                 </div>
                 <div class="stat-card">
                     <h3 id="totalPrizes">0</h3>
-                    <p>จำนวนของรางวัลที่แจกแล้ว</p>
+                    <p>ของรางวัลที่แจกแล้ว</p>
                 </div>
             </div>
             <div style="overflow-x:auto;">
-                <table id="recordsTable">
+                <table>
                     <thead>
                         <tr>
-                            <th>ลำดับ</th>
+                            <th>#</th>
                             <th>ชื่อของรางวัล</th>
                             <th>จำนวน</th>
                             <th>Emp-ID</th>
                             <th>Function</th>
                             <th>Name</th>
-                            <th>วันที่บันทึก</th>
-                            <th>จัดการ</th>
+                            <th>วันที่</th>
+                            <th>ลบ</th>
                         </tr>
                     </thead>
                     <tbody id="recordsBody">
-                        <tr>
-                            <td colspan="8" style="text-align:center;color:#999;">ยังไม่มีข้อมูล กรุณาบันทึกข้อมูลของรางวัล</td>
-                        </tr>
+                        <tr><td colspan="8" style="text-align:center;color:#999;padding:20px;">ยังไม่มีข้อมูล</td></tr>
                     </tbody>
                 </table>
             </div>
-            <div class="btn-group" style="margin-top:20px;">
-                <button class="btn btn-export" onclick="exportToExcel()">📥 Export ไฟล์ Excel</button>
-                <button class="btn btn-primary" onclick="clearAllRecords()">🗑️ ล้างข้อมูลทั้งหมด</button>
+            <div class="btn-group" style="margin-top:16px;">
+                <button class="btn btn-export" onclick="exportToExcel()">📥 Export Excel</button>
+                <button class="btn btn-danger"  onclick="clearAllRecords()">🗑️ ล้างทั้งหมด</button>
             </div>
         </div>
+
     </div>
 </div>
 
 <script>
-    // ===== PRIZE CATALOG =====
     const PRIZE_CATALOG = [
         { name: "หม้อหุงข้าว",                    total: 2  },
         { name: "หม้อสุกี้",                       total: 2  },
@@ -414,320 +459,299 @@
 
     let employeeData = [];
     let records = [];
-    let debugMode = false;
+    let selectedPrizeName = '';
 
     window.onload = function() {
         loadFromLocalStorage();
+        renderPrizeGrid();
         updateStats();
-        renderPrizeOverview();
     };
 
     // ===== FILE UPLOAD =====
     document.getElementById('fileInput').addEventListener('change', function(e) {
         const file = e.target.files[0];
-        if (file) {
-            document.getElementById('fileName').textContent = 'ไฟล์ที่เลือก: ' + file.name;
-            readExcelFile(file);
-        }
-    });
-
-    function readExcelFile(file) {
+        if (!file) return;
+        document.getElementById('fileName').textContent = 'ไฟล์: ' + file.name;
         const reader = new FileReader();
         reader.onload = function(e) {
             try {
                 const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, { type: 'array' });
-                const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-                const rawData = XLSX.utils.sheet_to_json(firstSheet, { header: 1, raw: false, defval: '' });
-
-                debugLog('Raw Data (First 10 rows):', rawData.slice(0, 10));
-
+                const wb = XLSX.read(data, { type: 'array' });
+                const ws = wb.Sheets[wb.SheetNames[0]];
+                const rawData = XLSX.utils.sheet_to_json(ws, { header: 1, raw: false, defval: '' });
                 if (rawData.length < 2) { showAlert('error', 'ไม่พบข้อมูลในไฟล์'); return; }
 
                 const headers = rawData[0];
-                let empIdCol = -1, functionCol = -1, nameCol = -1;
-
-                for (let i = 0; i < headers.length; i++) {
-                    const header = String(headers[i] || '').trim().toLowerCase();
-                    if (empIdCol === -1 && (header.includes('emp') || header.includes('รหัส') || header.includes('id'))) empIdCol = i;
-                    if (functionCol === -1 && (header.includes('function') || header.includes('department') || header.includes('แผนก') || header.includes('หน่วย'))) functionCol = i;
-                    if (nameCol === -1 && (header.includes('name') || header.includes('ชื่อ'))) nameCol = i;
-                }
-
-                if (empIdCol === -1) empIdCol = 0;
-                if (functionCol === -1) functionCol = 1;
-                if (nameCol === -1) nameCol = 2;
+                let empIdCol = 0, functionCol = 1, nameCol = 2;
+                headers.forEach((h, i) => {
+                    const hh = String(h).trim().toLowerCase();
+                    if (hh.includes('emp') || hh.includes('รหัส') || hh.includes('id')) empIdCol = i;
+                    else if (hh.includes('function') || hh.includes('department') || hh.includes('แผนก')) functionCol = i;
+                    else if (hh.includes('name') || hh.includes('ชื่อ')) nameCol = i;
+                });
 
                 employeeData = [];
                 for (let i = 1; i < rawData.length; i++) {
                     const row = rawData[i];
-                    if (!row || row.length === 0) continue;
-                    const empId = normalizeEmpId(row[empIdCol]);
-                    if (!empId) continue;
-                    employeeData.push({
-                        empId: empId,
-                        function: String(row[functionCol] || '').trim(),
-                        name: String(row[nameCol] || '').trim(),
-                    });
+                    if (!row || !row[empIdCol]) continue;
+                    const id = normalizeId(row[empIdCol]);
+                    if (!id) continue;
+                    employeeData.push({ empId: id, function: String(row[functionCol]||'').trim(), name: String(row[nameCol]||'').trim() });
                 }
 
                 if (employeeData.length > 0) {
-                    showAlert('success', '✅ โหลดข้อมูลสำเร็จ! พบพนักงาน ' + employeeData.length + ' คน');
                     document.getElementById('totalEmployees').textContent = employeeData.length;
                     document.getElementById('employeeStats').style.display = 'grid';
                     saveToLocalStorage();
+                    showAlert('success', '✅ โหลดข้อมูลสำเร็จ! พบพนักงาน ' + employeeData.length + ' คน');
                 } else {
-                    showAlert('error', 'ไม่พบข้อมูลที่ถูกต้องในไฟล์');
+                    showAlert('error', 'ไม่พบข้อมูลพนักงาน');
                 }
-            } catch (error) {
-                showAlert('error', 'เกิดข้อผิดพลาด: ' + error.message);
-            }
+            } catch(err) { showAlert('error', 'เกิดข้อผิดพลาด: ' + err.message); }
         };
         reader.readAsArrayBuffer(file);
+    });
+
+    function normalizeId(v) {
+        return String(v||'').trim().replace(/\s+/g,'').replace(/^0+/,'');
     }
 
-    function normalizeEmpId(empId) {
-        if (!empId) return '';
-        return String(empId).trim().replace(/\s+/g, '').replace(/^0+/, '');
-    }
-
-    // ===== EMP-ID AUTO FILL =====
-    document.getElementById('empId').addEventListener('input', function(e) {
-        const empId = normalizeEmpId(e.target.value);
-        if (empId === '') {
-            document.getElementById('empFunction').value = '';
-            document.getElementById('empName').value = '';
-            return;
-        }
-        const employee = employeeData.find(emp => emp.empId === empId);
-        if (employee) {
-            document.getElementById('empFunction').value = employee.function;
-            document.getElementById('empName').value = employee.name;
-            showAlert('info', '✅ พบข้อมูลพนักงาน: ' + employee.name + ' (' + employee.function + ')');
+    // ===== EMP AUTO FILL =====
+    document.getElementById('empId').addEventListener('input', function() {
+        const id = normalizeId(this.value);
+        if (!id) { document.getElementById('empFunction').value = ''; document.getElementById('empName').value = ''; return; }
+        const emp = employeeData.find(e => e.empId === id);
+        if (emp) {
+            document.getElementById('empFunction').value = emp.function;
+            document.getElementById('empName').value = emp.name;
+            showAlert('info', '✅ พบ: ' + emp.name + ' (' + emp.function + ')');
         } else {
             document.getElementById('empFunction').value = '';
             document.getElementById('empName').value = '';
-            if (empId.length >= 4) showAlert('warning', '❌ ไม่พบข้อมูล Emp-ID: ' + empId);
+            if (id.length >= 4) showAlert('warning', '❌ ไม่พบ Emp-ID: ' + id);
         }
     });
 
-    // ===== PRIZE SELECT =====
-    function onPrizeSelect() {
-        const sel = document.getElementById('prizeName');
-        const selectedName = sel.value;
-        const infoArea = document.getElementById('prizeInfoArea');
-
-        if (!selectedName) { infoArea.style.display = 'none'; return; }
-
-        const prize = PRIZE_CATALOG.find(p => p.name === selectedName);
-        if (!prize) { infoArea.style.display = 'none'; return; }
-
-        const used = records.filter(r => r.prizeName === selectedName).reduce((s, r) => s + r.prizeQuantity, 0);
-        const remaining = prize.total - used;
-
-        document.getElementById('prizeTotalBadge').textContent = 'ทั้งหมด: ' + prize.total + ' ชิ้น';
-
-        const badge = document.getElementById('prizeRemainingBadge');
-        badge.textContent = 'คงเหลือ: ' + remaining + ' ชิ้น';
-        badge.className = 'prize-remaining ' + (remaining > 2 ? 'ok' : remaining > 0 ? 'warn' : 'empty');
-
-        infoArea.style.display = 'block';
-
-        // set quantity max
-        document.getElementById('prizeQuantity').max = remaining;
-        document.getElementById('prizeQuantity').value = remaining > 0 ? 1 : 0;
+    // ===== PRIZE GRID =====
+    function getUsed(name) {
+        return records.filter(r => r.prizeName === name).reduce((s,r) => s + r.prizeQuantity, 0);
+    }
+    function getRemaining(name) {
+        const p = PRIZE_CATALOG.find(p => p.name === name);
+        return p ? p.total - getUsed(name) : 0;
+    }
+    function leftClass(rem, total) {
+        if (rem <= 0) return 'badge-left-zero';
+        if (rem <= Math.ceil(total * 0.3)) return 'badge-left-warn';
+        return 'badge-left-ok';
     }
 
-    // ===== ADD RECORD =====
-    function addRecord() {
-        const prizeName = document.getElementById('prizeName').value;
-        const prizeQuantity = parseInt(document.getElementById('prizeQuantity').value);
-        const empId = normalizeEmpId(document.getElementById('empId').value);
-        const empFunction = document.getElementById('empFunction').value.trim();
-        const empName = document.getElementById('empName').value.trim();
-
-        if (!prizeName) { showAlert('error', 'กรุณาเลือกชื่อของรางวัล'); return; }
-        if (!prizeQuantity || prizeQuantity < 1) { showAlert('error', 'กรุณากรอกจำนวนที่ถูกต้อง'); return; }
-        if (!empId) { showAlert('error', 'กรุณากรอก Emp-ID'); return; }
-        if (!empFunction || !empName) { showAlert('error', 'ไม่พบข้อมูลพนักงาน กรุณาตรวจสอบ Emp-ID'); return; }
-
-        // Check remaining
-        const prize = PRIZE_CATALOG.find(p => p.name === prizeName);
-        if (prize) {
-            const used = records.filter(r => r.prizeName === prizeName).reduce((s, r) => s + r.prizeQuantity, 0);
-            const remaining = prize.total - used;
-            if (prizeQuantity > remaining) {
-                showAlert('error', '❌ ของรางวัลนี้คงเหลือเพียง ' + remaining + ' ชิ้น ไม่สามารถบันทึกได้');
-                return;
-            }
-        }
-
-        records.push({
-            id: Date.now(),
-            prizeName,
-            prizeQuantity,
-            empId,
-            empFunction,
-            empName,
-            date: new Date().toLocaleDateString('th-TH')
-        });
-
-        displayRecords();
-        renderPrizeOverview();
-        onPrizeSelect();
-        clearForm();
-        updateStats();
-        saveToLocalStorage();
-        showAlert('success', '✅ บันทึกข้อมูลสำเร็จ!');
-    }
-
-    // ===== DISPLAY RECORDS =====
-    function displayRecords() {
-        const tbody = document.getElementById('recordsBody');
-        if (records.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#999;">ยังไม่มีข้อมูล กรุณาบันทึกข้อมูลของรางวัล</td></tr>';
-            return;
-        }
-        tbody.innerHTML = records.map((record, index) =>
-            '<tr>' +
-            '<td>' + (index + 1) + '</td>' +
-            '<td>' + record.prizeName + '</td>' +
-            '<td>' + record.prizeQuantity + '</td>' +
-            '<td>' + record.empId + '</td>' +
-            '<td>' + record.empFunction + '</td>' +
-            '<td>' + record.empName + '</td>' +
-            '<td>' + record.date + '</td>' +
-            '<td><button class="delete-btn" onclick="deleteRecord(' + record.id + ')">🗑️ ลบ</button></td>' +
-            '</tr>'
-        ).join('');
-    }
-
-    // ===== PRIZE OVERVIEW =====
-    function renderPrizeOverview() {
-        const grid = document.getElementById('prizeOverviewGrid');
-        grid.innerHTML = PRIZE_CATALOG.map((prize, idx) => {
-            const used = records.filter(r => r.prizeName === prize.name).reduce((s, r) => s + r.prizeQuantity, 0);
-            const remaining = prize.total - used;
-            const cls = remaining > 2 ? 'ok' : remaining > 0 ? 'warn' : 'empty';
-            return '<div class="prize-item">' +
-                '<div class="prize-item-name">' + (idx + 1) + '. ' + prize.name + '</div>' +
-                '<div class="prize-item-nums">' +
-                '<span class="prize-total">ทั้งหมด ' + prize.total + '</span>' +
-                '<span class="prize-used">ใช้ ' + used + '</span>' +
-                '<span class="prize-left ' + cls + '">เหลือ ' + remaining + '</span>' +
+    function renderPrizeGrid() {
+        const grid = document.getElementById('prizeGrid');
+        grid.innerHTML = PRIZE_CATALOG.map((p, i) => {
+            const used = getUsed(p.name);
+            const rem  = p.total - used;
+            const lc   = leftClass(rem, p.total);
+            const isEmpty = rem <= 0;
+            const isSelected = selectedPrizeName === p.name;
+            return '<div class="prize-card' + (isEmpty ? ' empty-card' : '') + (isSelected ? ' selected' : '') + '" onclick="selectPrize(\'' + escapeName(p.name) + '\')" id="pcard_' + i + '">' +
+                '<div class="prize-card-top">' +
+                '<span class="prize-card-num">' + (i+1) + '.</span>' +
+                '<span class="prize-card-name">' + p.name + '</span>' +
+                '</div>' +
+                '<div class="prize-card-badges">' +
+                '<div class="badge-wrap"><span class="badge-label">ทั้งหมด</span><span class="badge badge-total">' + p.total + '</span></div>' +
+                '<div class="badge-wrap"><span class="badge-label">ใช้</span><span class="badge badge-used">' + used + '</span></div>' +
+                '<div class="badge-wrap"><span class="badge-label">เหลือ</span><span class="badge ' + lc + '">' + rem + '</span></div>' +
                 '</div>' +
                 '</div>';
         }).join('');
     }
 
-    // ===== DELETE =====
-    function deleteRecord(id) {
-        if (confirm('คุณต้องการลบรายการนี้ใช่หรือไม่?')) {
-            records = records.filter(r => r.id !== id);
-            displayRecords();
-            renderPrizeOverview();
-            onPrizeSelect();
-            updateStats();
-            saveToLocalStorage();
-            showAlert('success', 'ลบรายการสำเร็จ');
-        }
+    function escapeName(name) {
+        return name.replace(/'/g, "\\'").replace(/\\/g, "\\\\");
     }
 
-    function clearAllRecords() {
-        if (confirm('คุณต้องการลบข้อมูลทั้งหมดใช่หรือไม่?')) {
-            records = [];
-            displayRecords();
-            renderPrizeOverview();
-            updateStats();
-            saveToLocalStorage();
-            showAlert('success', 'ลบข้อมูลทั้งหมดสำเร็จ');
-        }
+    function selectPrize(name) {
+        const rem = getRemaining(name);
+        if (rem <= 0) { showAlert('warning', '⚠️ ของรางวัลนี้หมดแล้ว'); return; }
+
+        selectedPrizeName = name;
+        renderPrizeGrid();
+
+        const prize = PRIZE_CATALOG.find(p => p.name === name);
+        const used  = getUsed(name);
+
+        // Update display
+        const disp = document.getElementById('selectedPrizeDisplay');
+        disp.style.display = 'block';
+        document.getElementById('spdName').textContent = '🎁 ' + name;
+        document.getElementById('spdTotal').textContent = 'ทั้งหมด ' + prize.total + ' ชิ้น';
+        document.getElementById('spdUsed').textContent  = 'ใช้แล้ว ' + used + ' ชิ้น';
+
+        const leftEl = document.getElementById('spdLeft');
+        leftEl.textContent = 'เหลือ ' + rem + ' ชิ้น';
+        leftEl.className = 'spd-badge ' + (rem > Math.ceil(prize.total*0.3) ? 'spd-left-ok' : rem > 0 ? 'spd-left-warn' : 'spd-left-zero');
+
+        document.getElementById('prizeQuantity').value = 1;
+        document.getElementById('prizeQuantity').max = rem;
+
+        // scroll to form
+        document.getElementById('empId').focus();
+        showAlert('info', '🎁 เลือก: ' + name + ' (คงเหลือ ' + rem + ' ชิ้น)');
     }
 
-    function clearForm() {
-        document.getElementById('prizeName').value = '';
-        document.getElementById('prizeQuantity').value = '1';
+    // ===== QTY BUTTONS =====
+    function changeQty(delta) {
+        const input = document.getElementById('prizeQuantity');
+        let val = parseInt(input.value) || 1;
+        const rem = selectedPrizeName ? getRemaining(selectedPrizeName) : 99;
+        val = Math.max(1, Math.min(rem, val + delta));
+        input.value = val;
+    }
+
+    // ===== ADD RECORD =====
+    function addRecord() {
+        if (!selectedPrizeName) { showAlert('error', 'กรุณาเลือกของรางวัลก่อน'); return; }
+
+        const qty     = parseInt(document.getElementById('prizeQuantity').value);
+        const empId   = normalizeId(document.getElementById('empId').value);
+        const empFunc = document.getElementById('empFunction').value.trim();
+        const empName = document.getElementById('empName').value.trim();
+
+        if (!qty || qty < 1) { showAlert('error', 'จำนวนไม่ถูกต้อง'); return; }
+        if (!empId) { showAlert('error', 'กรุณากรอก Emp-ID'); return; }
+        if (!empFunc || !empName) { showAlert('error', 'ไม่พบข้อมูลพนักงาน กรุณาตรวจสอบ Emp-ID'); return; }
+
+        const rem = getRemaining(selectedPrizeName);
+        if (qty > rem) { showAlert('error', '❌ ของรางวัลคงเหลือ ' + rem + ' ชิ้น ไม่เพียงพอ'); return; }
+
+        records.push({
+            id: Date.now(),
+            prizeName: selectedPrizeName,
+            prizeQuantity: qty,
+            empId, empFunction: empFunc, empName,
+            date: new Date().toLocaleDateString('th-TH')
+        });
+
+        displayRecords();
+        renderPrizeGrid();
+        updateStats();
+        saveToLocalStorage();
+
+        // refresh selected display
+        selectPrize(selectedPrizeName);
+
         document.getElementById('empId').value = '';
         document.getElementById('empFunction').value = '';
         document.getElementById('empName').value = '';
-        document.getElementById('prizeInfoArea').style.display = 'none';
+        document.getElementById('prizeQuantity').value = 1;
+
+        showAlert('success', '✅ บันทึกสำเร็จ! ' + selectedPrizeName + ' จำนวน ' + qty + ' ชิ้น ให้ ' + empName);
+    }
+
+    // ===== DISPLAY =====
+    function displayRecords() {
+        const tbody = document.getElementById('recordsBody');
+        if (records.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#999;padding:20px;">ยังไม่มีข้อมูล</td></tr>';
+            return;
+        }
+        tbody.innerHTML = records.map((r, i) =>
+            '<tr>' +
+            '<td>' + (i+1) + '</td>' +
+            '<td><strong>' + r.prizeName + '</strong></td>' +
+            '<td>' + r.prizeQuantity + '</td>' +
+            '<td>' + r.empId + '</td>' +
+            '<td>' + r.empFunction + '</td>' +
+            '<td>' + r.empName + '</td>' +
+            '<td>' + r.date + '</td>' +
+            '<td><button class="delete-btn" onclick="deleteRecord(' + r.id + ')">🗑️</button></td>' +
+            '</tr>'
+        ).join('');
+    }
+
+    function deleteRecord(id) {
+        if (!confirm('ลบรายการนี้?')) return;
+        records = records.filter(r => r.id !== id);
+        displayRecords();
+        renderPrizeGrid();
+        updateStats();
+        saveToLocalStorage();
+        if (selectedPrizeName) selectPrize(selectedPrizeName);
+        showAlert('success', 'ลบสำเร็จ');
+    }
+
+    function clearAllRecords() {
+        if (!confirm('ลบข้อมูลทั้งหมด?')) return;
+        records = [];
+        selectedPrizeName = '';
+        displayRecords();
+        renderPrizeGrid();
+        updateStats();
+        saveToLocalStorage();
+        document.getElementById('selectedPrizeDisplay').style.display = 'none';
+        showAlert('success', 'ล้างข้อมูลทั้งหมดสำเร็จ');
+    }
+
+    function clearForm() {
+        selectedPrizeName = '';
+        document.getElementById('selectedPrizeDisplay').style.display = 'none';
+        document.getElementById('prizeQuantity').value = 1;
+        document.getElementById('empId').value = '';
+        document.getElementById('empFunction').value = '';
+        document.getElementById('empName').value = '';
+        renderPrizeGrid();
     }
 
     function updateStats() {
         document.getElementById('totalRecords').textContent = records.length;
-        document.getElementById('totalPrizes').textContent = records.reduce((s, r) => s + r.prizeQuantity, 0);
+        document.getElementById('totalPrizes').textContent = records.reduce((s,r) => s + r.prizeQuantity, 0);
     }
 
     // ===== EXPORT =====
     function exportToExcel() {
         if (records.length === 0) { showAlert('error', 'ไม่มีข้อมูลให้ Export'); return; }
-        const exportData = records.map((r, i) => ({
-            'ลำดับ': i + 1,
-            'ชื่อของรางวัล': r.prizeName,
-            'จำนวน': r.prizeQuantity,
-            'Emp-ID': r.empId,
-            'Function': r.empFunction,
-            'Name': r.empName,
-            'วันที่บันทึก': r.date
+        const data = records.map((r,i) => ({
+            'ลำดับ': i+1, 'ชื่อของรางวัล': r.prizeName,
+            'จำนวน': r.prizeQuantity, 'Emp-ID': r.empId,
+            'Function': r.empFunction, 'Name': r.empName, 'วันที่': r.date
         }));
-        const ws = XLSX.utils.json_to_sheet(exportData);
+        const ws = XLSX.utils.json_to_sheet(data);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Prize Records');
-        const fileName = 'Prize_Records_' + new Date().toISOString().split('T')[0] + '.xlsx';
-        XLSX.writeFile(wb, fileName);
-        showAlert('success', 'Export สำเร็จ! ไฟล์: ' + fileName);
+        XLSX.writeFile(wb, 'Prize_Records_' + new Date().toISOString().split('T')[0] + '.xlsx');
+        showAlert('success', 'Export สำเร็จ!');
     }
 
     // ===== ALERT =====
-    function showAlert(type, message) {
-        ['Success','Error','Info','Warning'].forEach(t => {
-            document.getElementById('alert' + t).style.display = 'none';
-        });
-        const alert = document.getElementById('alert' + type.charAt(0).toUpperCase() + type.slice(1));
-        alert.innerHTML = message;
-        alert.style.display = 'block';
-        setTimeout(() => { alert.style.display = 'none'; }, 6000);
-    }
-
-    // ===== DEBUG =====
-    function toggleDebug() {
-        debugMode = !debugMode;
-        document.getElementById('debugInfo').style.display = debugMode ? 'block' : 'none';
-        if (debugMode && employeeData.length > 0) {
-            debugLog('Employee Data Summary', { total: employeeData.length, first10: employeeData.slice(0, 10) });
-        }
-    }
-
-    function debugLog(label, data) {
-        const debugInfo = document.getElementById('debugInfo');
-        const timestamp = new Date().toLocaleTimeString('th-TH');
-        debugInfo.innerHTML += '<div style="margin-bottom:15px;border-bottom:1px solid #ccc;padding-bottom:10px;"><strong style="color:#d9534f;">[' + timestamp + '] ' + label + '</strong><br><pre>' + JSON.stringify(data, null, 2) + '</pre></div>';
-        debugInfo.scrollTop = debugInfo.scrollHeight;
+    function showAlert(type, msg) {
+        ['Success','Error','Info','Warning'].forEach(t => document.getElementById('alert'+t).style.display = 'none');
+        const el = document.getElementById('alert' + type.charAt(0).toUpperCase() + type.slice(1));
+        el.innerHTML = msg;
+        el.style.display = 'block';
+        setTimeout(() => el.style.display = 'none', 5000);
     }
 
     function showSampleData() {
-        if (employeeData.length === 0) { showAlert('warning', 'กรุณาอัพโหลดไฟล์ Excel ก่อน'); return; }
-        const sample = employeeData.slice(0, 10);
-        let message = '<strong>📋 ตัวอย่างข้อมูล 10 คนแรก:</strong><br><br><div style="font-family:monospace;font-size:0.9em;line-height:1.8;">';
-        sample.forEach((emp, i) => {
-            message += '<strong>' + (i+1) + '.</strong> ID: <span style="background:#ffffcc;padding:2px 5px;border-radius:3px;">' + emp.empId + '</span> | Function: ' + (emp.function || '-') + ' | Name: ' + (emp.name || '-') + '<br>';
-        });
-        message += '</div><br><strong>💡 ลองคัดลอก ID ไปลองกรอกดูครับ</strong>';
-        showAlert('info', message);
+        if (!employeeData.length) { showAlert('warning', 'กรุณาอัพโหลดไฟล์ Excel ก่อน'); return; }
+        const s = employeeData.slice(0, 5);
+        let msg = '<strong>ตัวอย่าง 5 คนแรก:</strong><br>';
+        s.forEach((e,i) => { msg += (i+1) + '. ID: <b>' + e.empId + '</b> | ' + e.function + ' | ' + e.name + '<br>'; });
+        showAlert('info', msg);
     }
 
-    // ===== LOCALSTORAGE =====
+    // ===== STORAGE =====
     function saveToLocalStorage() {
         localStorage.setItem('prizeRecords', JSON.stringify(records));
         localStorage.setItem('employeeData', JSON.stringify(employeeData));
     }
-
     function loadFromLocalStorage() {
-        const savedRecords = localStorage.getItem('prizeRecords');
-        const savedEmployees = localStorage.getItem('employeeData');
-        if (savedRecords) { records = JSON.parse(savedRecords); displayRecords(); }
-        if (savedEmployees) {
-            employeeData = JSON.parse(savedEmployees);
+        const r = localStorage.getItem('prizeRecords');
+        const e = localStorage.getItem('employeeData');
+        if (r) { records = JSON.parse(r); displayRecords(); }
+        if (e) {
+            employeeData = JSON.parse(e);
             if (employeeData.length > 0) {
                 document.getElementById('totalEmployees').textContent = employeeData.length;
                 document.getElementById('employeeStats').style.display = 'grid';
