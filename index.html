@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+html_code = '''<!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
@@ -298,6 +298,59 @@
         #fileInput { display: none; }
         .file-name { margin-top: 8px; color: #666; font-style: italic; font-size: 0.9em; }
 
+        /* ===== DUPLICATE POPUP MODAL ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal-box {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalPop 0.3s ease;
+        }
+        @keyframes modalPop {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-icon { font-size: 3em; margin-bottom: 16px; }
+        .modal-title { font-size: 1.4em; font-weight: 700; color: #dc3545; margin-bottom: 12px; }
+        .modal-msg { font-size: 1em; color: #555; margin-bottom: 8px; line-height: 1.6; }
+        .modal-detail { 
+            background: #fff3cd; 
+            border-radius: 10px; 
+            padding: 12px; 
+            margin: 12px 0; 
+            font-size: 0.9em; 
+            color: #856404;
+            text-align: left;
+        }
+        .modal-btn-group { display: flex; gap: 12px; justify-content: center; margin-top: 20px; }
+        .modal-btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+        .modal-btn-cancel { background: #6c757d; color: white; }
+        .modal-btn-cancel:hover { background: #5a6268; }
+        .modal-btn-confirm { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+        .modal-btn-confirm:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102,126,234,0.4); }
+
         @media (max-width: 768px) {
             .prize-grid { grid-template-columns: repeat(2, 1fr); }
             .form-row { grid-template-columns: 1fr; }
@@ -433,33 +486,57 @@
     </div>
 </div>
 
+<!-- Duplicate Employee Popup Modal -->
+<div class="modal-overlay" id="duplicateModal">
+    <div class="modal-box">
+        <div class="modal-icon">⚠️</div>
+        <div class="modal-title">พบรหัสพนักงานซ้ำ!</div>
+        <div class="modal-msg" id="duplicateMsg"></div>
+        <div class="modal-detail" id="duplicateDetail"></div>
+        <div class="modal-btn-group">
+            <button class="modal-btn modal-btn-cancel" onclick="closeDuplicateModal()">❌ ยกเลิก</button>
+            <button class="modal-btn modal-btn-confirm" onclick="confirmDuplicate()">✅ บันทึกต่อ</button>
+        </div>
+    </div>
+</div>
+
 <script>
     const PRIZE_CATALOG = [
-        { name: "หม้อหุงข้าว",                    total: 2  },
-        { name: "หม้อสุกี้",                       total: 2  },
-        { name: "กระติกน้ำสีชมพู",                 total: 2  },
-        { name: "กระเป๋าเป้",                      total: 6  },
-        { name: "เบาะรองนั่ง",                     total: 6  },
-        { name: "กล่องข้าว+ช้อน",                  total: 10 },
-        { name: "กล่องข้าว",                       total: 6  },
-        { name: "ชุดเซ็ทช้อนส้อม",                 total: 10 },
-        { name: "กระบอกน้ำ",                       total: 18 },
-        { name: "แก้วน้ำ",                         total: 10 },
-        { name: "พัดใหญ่",                         total: 8  },
-        { name: "เซ็ทแปรงสีฟัน",                   total: 5  },
-        { name: "หมอนลายดิสนีย์",                  total: 4  },
-        { name: "กระบอกน้ำลายสนูปปี้",             total: 10 },
-        { name: "กระติกน้ำ 3L",                    total: 1  },
-        { name: "กล่องเวฟลาย Disney",              total: 10 },
-        { name: "แก้วน้ำทัมเบลอร์ 10 Oz",          total: 4  },
-        { name: "ชุดของเล่นเด็ก (เครื่องบิน)",     total: 8  },
-        { name: "เก้าลิ้นชักมินิ 3ชั้น",           total: 5  },
-        { name: "ของเล่นที่ตักทราย",               total: 1  }
+        { name: "กระดาษโน๊ต",                     total: 3  },
+        { name: "กะละมังล้างผัก",                  total: 5  },
+        { name: "กระติกน้ำแข็ง",                   total: 2  },
+        { name: "กล่องอาหารกลมชุด 8 ชิ้น",        total: 4  },
+        { name: "กระเป๋ากระสอบ",                   total: 6  },
+        { name: "ไม้แขวนเสื้อตราโลตัส",            total: 8  },
+        { name: "หวี",                             total: 8  },
+        { name: "พัด",                             total: 4  },
+        { name: "ถังเหลี่ยมหูหิ้ว",                total: 3  },
+        { name: "ตระกร้าแอมเบอร์",                 total: 5  },
+        { name: "ร่มยาว",                          total: 4  },
+        { name: "สมุดปกอ่อน",                      total: 3  },
+        { name: "กระบอกน้ำ",                       total: 10 },
+        { name: "เบาะรองนั่งเก้าอี้",              total: 2  },
+        { name: "กล่องอาหาร 2 ช่อง",              total: 11 },
+        { name: "หมอนหนุนคละลาย",                  total: 3  },
+        { name: "ผ้าห่ม",                          total: 1  },
+        { name: "Set จานชามเซรามิก 4 ชิ้น",        total: 1  },
+        { name: "ชุดผ้าปูที่นอน Momorei",          total: 1  },
+        { name: "เครื่องปิ้งขนมปัง",               total: 2  },
+        { name: "ผ้าปูโต๊ะ",                       total: 5  },
+        { name: "ชุดทำครัวซิลิโคน",                total: 3  },
+        { name: "ตะหลิวอเนกประสงค์",               total: 4  },
+        { name: "เบาะรองนั่งมิกกี้เมาส์",          total: 1  },
+        { name: "หมอนอิงโคคูน",                    total: 2  },
+        { name: "หม้อไฟฟ้าอเนกประสงค์",            total: 2  },
+        { name: "หมอนรองคอสติทซ์",                 total: 2  },
+        { name: "หมวก",                            total: 4  },
+        { name: "นาฬิกา",                          total: 2  }
     ];
 
     let employeeData = [];
     let records = [];
     let selectedPrizeName = '';
+    let pendingRecord = null; // สำหรับเก็บข้อมูลชั่วคราวเมื่อพบ Emp-ID ซ้ำ
 
     window.onload = function() {
         loadFromLocalStorage();
@@ -513,7 +590,7 @@
     });
 
     function normalizeId(v) {
-        return String(v||'').trim().replace(/\s+/g,'').replace(/^0+/,'');
+        return String(v||'').trim().replace(/\\s+/g,'').replace(/^0+/,'');
     }
 
     // ===== EMP AUTO FILL =====
@@ -554,7 +631,7 @@
             const lc   = leftClass(rem, p.total);
             const isEmpty = rem <= 0;
             const isSelected = selectedPrizeName === p.name;
-            return '<div class="prize-card' + (isEmpty ? ' empty-card' : '') + (isSelected ? ' selected' : '') + '" onclick="selectPrize(\'' + escapeName(p.name) + '\')" id="pcard_' + i + '">' +
+            return '<div class="prize-card' + (isEmpty ? ' empty-card' : '') + (isSelected ? ' selected' : '') + '" onclick="selectPrize(\\'' + escapeName(p.name) + '\\')" id="pcard_' + i + '">' +
                 '<div class="prize-card-top">' +
                 '<span class="prize-card-num">' + (i+1) + '.</span>' +
                 '<span class="prize-card-name">' + p.name + '</span>' +
@@ -569,7 +646,7 @@
     }
 
     function escapeName(name) {
-        return name.replace(/'/g, "\\'").replace(/\\/g, "\\\\");
+        return name.replace(/'/g, "\\\\'").replace(/\\\\/g, "\\\\\\\\");
     }
 
     function selectPrize(name) {
@@ -610,6 +687,43 @@
         input.value = val;
     }
 
+    // ===== CHECK DUPLICATE EMP-ID =====
+    function checkDuplicateEmpId(empId) {
+        const duplicates = records.filter(r => r.empId === empId);
+        return duplicates;
+    }
+
+    // ===== DUPLICATE MODAL =====
+    function showDuplicateModal(empId, empName, duplicates) {
+        const modal = document.getElementById('duplicateModal');
+        const msg = document.getElementById('duplicateMsg');
+        const detail = document.getElementById('duplicateDetail');
+
+        msg.innerHTML = 'รหัสพนักงาน <strong>' + empId + '</strong> (' + empName + ')<br>เคยรับของรางวัลไปแล้ว <strong>' + duplicates.length + '</strong> รายการ';
+
+        let detailHtml = '<strong>📋 รายการที่เคยรับ:</strong><br>';
+        duplicates.forEach((d, i) => {
+            detailHtml += (i+1) + '. ' + d.prizeName + ' (จำนวน ' + d.prizeQuantity + ' ชิ้น) - ' + d.date + '<br>';
+        });
+        detailHtml += '<br><strong>ต้องการบันทึกเพิ่มอีกหรือไม่?</strong>';
+        detail.innerHTML = detailHtml;
+
+        modal.classList.add('show');
+    }
+
+    function closeDuplicateModal() {
+        document.getElementById('duplicateModal').classList.remove('show');
+        pendingRecord = null;
+    }
+
+    function confirmDuplicate() {
+        document.getElementById('duplicateModal').classList.remove('show');
+        if (pendingRecord) {
+            saveRecord(pendingRecord);
+            pendingRecord = null;
+        }
+    }
+
     // ===== ADD RECORD =====
     function addRecord() {
         if (!selectedPrizeName) { showAlert('error', 'กรุณาเลือกของรางวัลก่อน'); return; }
@@ -626,13 +740,27 @@
         const rem = getRemaining(selectedPrizeName);
         if (qty > rem) { showAlert('error', '❌ ของรางวัลคงเหลือ ' + rem + ' ชิ้น ไม่เพียงพอ'); return; }
 
-        records.push({
+        const recordData = {
             id: Date.now(),
             prizeName: selectedPrizeName,
             prizeQuantity: qty,
             empId, empFunction: empFunc, empName,
             date: new Date().toLocaleDateString('th-TH')
-        });
+        };
+
+        // ตรวจสอบ Emp-ID ซ้ำ
+        const duplicates = checkDuplicateEmpId(empId);
+        if (duplicates.length > 0) {
+            pendingRecord = recordData;
+            showDuplicateModal(empId, empName, duplicates);
+            return;
+        }
+
+        saveRecord(recordData);
+    }
+
+    function saveRecord(recordData) {
+        records.push(recordData);
 
         displayRecords();
         renderPrizeGrid();
@@ -640,14 +768,14 @@
         saveToLocalStorage();
 
         // refresh selected display
-        selectPrize(selectedPrizeName);
+        if (selectedPrizeName) selectPrize(selectedPrizeName);
 
         document.getElementById('empId').value = '';
         document.getElementById('empFunction').value = '';
         document.getElementById('empName').value = '';
         document.getElementById('prizeQuantity').value = 1;
 
-        showAlert('success', '✅ บันทึกสำเร็จ! ' + selectedPrizeName + ' จำนวน ' + qty + ' ชิ้น ให้ ' + empName);
+        showAlert('success', '✅ บันทึกสำเร็จ! ' + recordData.prizeName + ' จำนวน ' + recordData.prizeQuantity + ' ชิ้น ให้ ' + recordData.empName);
     }
 
     // ===== DISPLAY =====
@@ -760,4 +888,38 @@
     }
 </script>
 </body>
-</html>
+</html>'''
+
+with open('/mnt/data/prize-management-system.html', 'w', encoding='utf-8') as f:
+    f.write(html_code)
+
+print("✅ ไฟล์ prize-management-system.html สร้างเสร็จแล้ว!")
+print("\n📋 สรุปสิ่งที่แก้ไข:")
+print("=" * 50)
+print("\n1. 🎁 เปลี่ยนข้อมูลของรางวัลใหม่ทั้งหมด 29 รายการ:")
+prizes = [
+    ("กระดาษโน๊ต", 3), ("กะละมังล้างผัก", 5), ("กระติกน้ำแข็ง", 2),
+    ("กล่องอาหารกลมชุด 8 ชิ้น", 4), ("กระเป๋ากระสอบ", 6),
+    ("ไม้แขวนเสื้อตราโลตัส", 8), ("หวี", 8), ("พัด", 4),
+    ("ถังเหลี่ยมหูหิ้ว", 3), ("ตระกร้าแอมเบอร์", 5),
+    ("ร่มยาว", 4), ("สมุดปกอ่อน", 3), ("กระบอกน้ำ", 10),
+    ("เบาะรองนั่งเก้าอี้", 2), ("กล่องอาหาร 2 ช่อง", 11),
+    ("หมอนหนุนคละลาย", 3), ("ผ้าห่ม", 1),
+    ("Set จานชามเซรามิก 4 ชิ้น", 1), ("ชุดผ้าปูที่นอน Momorei", 1),
+    ("เครื่องปิ้งขนมปัง", 2), ("ผ้าปูโต๊ะ", 5),
+    ("ชุดทำครัวซิลิโคน", 3), ("ตะหลิวอเนกประสงค์", 4),
+    ("เบาะรองนั่งมิกกี้เมาส์", 1), ("หมอนอิงโคคูน", 2),
+    ("หม้อไฟฟ้าอเนกประสงค์", 2), ("หมอนรองคอสติทซ์", 2),
+    ("หมวก", 4), ("นาฬิกา", 2)
+]
+for i, (name, qty) in enumerate(prizes, 1):
+    print(f"   {i:2d}. {name} ({qty} ชิ้น)")
+
+print(f"\n   รวมของรางวัลทั้งหมด: {sum(q for _, q in prizes)} ชิ้น")
+
+print("\n2. ⚠️ เพิ่มระบบตรวจจับ Emp-ID ซ้ำ พร้อม Pop-up แจ้งเตือน:")
+print("   - เมื่อกรอก Emp-ID ที่เคยรับของรางวัลไปแล้ว จะแสดง Pop-up")
+print("   - Pop-up แสดงรายละเอียดของรางวัลที่เคยรับ (ชื่อ, จำนวน, วันที่)")
+print("   - มีปุ่ม 'ยกเลิก' และ 'บันทึกต่อ' ให้เลือก")
+print("   - ถ้ากด 'บันทึกต่อ' จะบันทึกได้ตามปกติ")
+print("   - ถ้ากด 'ยกเลิก' จะไม่บันทึก")
