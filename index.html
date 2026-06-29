@@ -536,7 +536,7 @@
     let employeeData = [];
     let records = [];
     let selectedPrizeName = '';
-    let pendingRecord = null; // สำหรับเก็บข้อมูลชั่วคราวเมื่อพบ Emp-ID ซ้ำ
+    let pendingRecord = null;
 
     window.onload = function() {
         loadFromLocalStorage();
@@ -590,7 +590,7 @@
     });
 
     function normalizeId(v) {
-        return String(v||'').trim().replace(/\\s+/g,'').replace(/^0+/,'');
+        return String(v||'').trim().replace(/\s+/g,'').replace(/^0+/,'');
     }
 
     // ===== EMP AUTO FILL =====
@@ -631,7 +631,7 @@
             const lc   = leftClass(rem, p.total);
             const isEmpty = rem <= 0;
             const isSelected = selectedPrizeName === p.name;
-            return '<div class="prize-card' + (isEmpty ? ' empty-card' : '') + (isSelected ? ' selected' : '') + '" onclick="selectPrize(\\'' + escapeName(p.name) + '\\')" id="pcard_' + i + '">' +
+            return '<div class="prize-card' + (isEmpty ? ' empty-card' : '') + (isSelected ? ' selected' : '') + '" onclick="selectPrize(\'' + escapeName(p.name) + '\')" id="pcard_' + i + '">' +
                 '<div class="prize-card-top">' +
                 '<span class="prize-card-num">' + (i+1) + '.</span>' +
                 '<span class="prize-card-name">' + p.name + '</span>' +
@@ -646,7 +646,7 @@
     }
 
     function escapeName(name) {
-        return name.replace(/'/g, "\\\\'").replace(/\\\\/g, "\\\\\\\\");
+        return name.replace(/'/g, "\\'").replace(/\\/g, "\\\\");
     }
 
     function selectPrize(name) {
@@ -659,7 +659,6 @@
         const prize = PRIZE_CATALOG.find(p => p.name === name);
         const used  = getUsed(name);
 
-        // Update display
         const disp = document.getElementById('selectedPrizeDisplay');
         disp.style.display = 'block';
         document.getElementById('spdName').textContent = '🎁 ' + name;
@@ -673,7 +672,6 @@
         document.getElementById('prizeQuantity').value = 1;
         document.getElementById('prizeQuantity').max = rem;
 
-        // scroll to form
         document.getElementById('empId').focus();
         showAlert('info', '🎁 เลือก: ' + name + ' (คงเหลือ ' + rem + ' ชิ้น)');
     }
@@ -689,8 +687,7 @@
 
     // ===== CHECK DUPLICATE EMP-ID =====
     function checkDuplicateEmpId(empId) {
-        const duplicates = records.filter(r => r.empId === empId);
-        return duplicates;
+        return records.filter(r => r.empId === empId);
     }
 
     // ===== DUPLICATE MODAL =====
@@ -767,7 +764,6 @@
         updateStats();
         saveToLocalStorage();
 
-        // refresh selected display
         if (selectedPrizeName) selectPrize(selectedPrizeName);
 
         document.getElementById('empId').value = '';
@@ -888,38 +884,4 @@
     }
 </script>
 </body>
-</html>'''
-
-with open('/mnt/data/prize-management-system.html', 'w', encoding='utf-8') as f:
-    f.write(html_code)
-
-print("✅ ไฟล์ prize-management-system.html สร้างเสร็จแล้ว!")
-print("\n📋 สรุปสิ่งที่แก้ไข:")
-print("=" * 50)
-print("\n1. 🎁 เปลี่ยนข้อมูลของรางวัลใหม่ทั้งหมด 29 รายการ:")
-prizes = [
-    ("กระดาษโน๊ต", 3), ("กะละมังล้างผัก", 5), ("กระติกน้ำแข็ง", 2),
-    ("กล่องอาหารกลมชุด 8 ชิ้น", 4), ("กระเป๋ากระสอบ", 6),
-    ("ไม้แขวนเสื้อตราโลตัส", 8), ("หวี", 8), ("พัด", 4),
-    ("ถังเหลี่ยมหูหิ้ว", 3), ("ตระกร้าแอมเบอร์", 5),
-    ("ร่มยาว", 4), ("สมุดปกอ่อน", 3), ("กระบอกน้ำ", 10),
-    ("เบาะรองนั่งเก้าอี้", 2), ("กล่องอาหาร 2 ช่อง", 11),
-    ("หมอนหนุนคละลาย", 3), ("ผ้าห่ม", 1),
-    ("Set จานชามเซรามิก 4 ชิ้น", 1), ("ชุดผ้าปูที่นอน Momorei", 1),
-    ("เครื่องปิ้งขนมปัง", 2), ("ผ้าปูโต๊ะ", 5),
-    ("ชุดทำครัวซิลิโคน", 3), ("ตะหลิวอเนกประสงค์", 4),
-    ("เบาะรองนั่งมิกกี้เมาส์", 1), ("หมอนอิงโคคูน", 2),
-    ("หม้อไฟฟ้าอเนกประสงค์", 2), ("หมอนรองคอสติทซ์", 2),
-    ("หมวก", 4), ("นาฬิกา", 2)
-]
-for i, (name, qty) in enumerate(prizes, 1):
-    print(f"   {i:2d}. {name} ({qty} ชิ้น)")
-
-print(f"\n   รวมของรางวัลทั้งหมด: {sum(q for _, q in prizes)} ชิ้น")
-
-print("\n2. ⚠️ เพิ่มระบบตรวจจับ Emp-ID ซ้ำ พร้อม Pop-up แจ้งเตือน:")
-print("   - เมื่อกรอก Emp-ID ที่เคยรับของรางวัลไปแล้ว จะแสดง Pop-up")
-print("   - Pop-up แสดงรายละเอียดของรางวัลที่เคยรับ (ชื่อ, จำนวน, วันที่)")
-print("   - มีปุ่ม 'ยกเลิก' และ 'บันทึกต่อ' ให้เลือก")
-print("   - ถ้ากด 'บันทึกต่อ' จะบันทึกได้ตามปกติ")
-print("   - ถ้ากด 'ยกเลิก' จะไม่บันทึก")
+</html>
