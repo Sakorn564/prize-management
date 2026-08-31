@@ -326,12 +326,12 @@
         .modal-icon { font-size: 3em; margin-bottom: 16px; }
         .modal-title { font-size: 1.4em; font-weight: 700; color: #dc3545; margin-bottom: 12px; }
         .modal-msg { font-size: 1em; color: #555; margin-bottom: 8px; line-height: 1.6; }
-        .modal-detail { 
-            background: #fff3cd; 
-            border-radius: 10px; 
-            padding: 12px; 
-            margin: 12px 0; 
-            font-size: 0.9em; 
+        .modal-detail {
+            background: #fff3cd;
+            border-radius: 10px;
+            padding: 12px;
+            margin: 12px 0;
+            font-size: 0.9em;
             color: #856404;
             text-align: left;
         }
@@ -501,39 +501,44 @@
 </div>
 
 <script>
-    // ===== PRIZE CATALOG (อัปเดตตามรายการใหม่) =====
+    // ===== PRIZE CATALOG (อัปเดตรายการใหม่ 36 รายการ) =====
     const PRIZE_CATALOG = [
-        { name: "กระดาษโน๊ต",                     total: 3  },
-        { name: "กะละมังล้างผัก",                  total: 5  },
-        { name: "กระติกน้ำแข็ง",                   total: 1  },
-        { name: "กล่องอาหารกลมชุด 8 ชิ้น",        total: 3  },
-        { name: "กระเป๋ากระสอบ",                   total: 6  },
-        { name: "ไม้แขวนเสื้อตราโลตัส",            total: 6  },
-        { name: "หวี",                             total: 7  },
-        { name: "พัด",                             total: 4  },
-        { name: "ถังเหลี่ยมหูหิ้ว",                total: 3  },
-        { name: "ตระกร้าแอมเบอร์",                 total: 5  },
-        { name: "กระเป๋าเป้",                      total: 2  },
-        { name: "สมุดปกอ่อน",                      total: 3  },
-        { name: "กระบอกน้ำ",                       total: 16 },
-        { name: "เบาะรองนั่งเก้าอี้",              total: 2  },
-        { name: "กล่องอาหาร 2 ช่อง",              total: 11 },
-        { name: "หมอนหนุนคละลาย",                  total: 2  },
-        { name: "ผ้าห่ม",                          total: 1  },
-        { name: "Set จานชามเซรามิก 4 ชิ้น",        total: 1  },
-        { name: "กล่องเวฟลายดิสนีย์",              total: 2  },
-        { name: "เครื่องปิ้งขนมปัง",               total: 1  },
-        { name: "เบาะรองนั่ง",                     total: 1  },
-        { name: "กระเป๋าลายการ์ตูน",               total: 3  },
-        { name: "แก้วน้ำ",                         total: 2  },
-        { name: "กล่องข้าว+ช้อน",                  total: 2  },
-        { name: "กระบอกน้ำลายสนูปปี้",             total: 3  },
-        { name: "หม้อไฟฟ้าอเนกประสงค์",            total: 2  },
-        { name: "หมอนรองคอสติทซ์",                 total: 1  },
-        { name: "แก้วเยติ",                        total: 1  },
-        { name: "นาฬิกา",                          total: 2  },
-        { name: "หมอนลายดิสนีย์",                  total: 1  },
-        { name: "เหยือกน้ำ",                       total: 2  }
+        { name: "กระดาษโน๊ต",                          total: 3  },
+        { name: "กะละมังล้างผัก",                       total: 5  },
+        { name: "กระติกน้ำแข็ง",                        total: 1  },
+        { name: "กล่องอาหารกลมชุด 8 ชิ้น",             total: 3  },
+        { name: "กระเป๋ากระสอบ",                        total: 6  },
+        { name: "ไม้แขวนเสื้อตราโลตัส",                 total: 6  },
+        { name: "หวี",                                  total: 7  },
+        { name: "พัด",                                  total: 3  },
+        { name: "ถังเหลี่ยมหูหิ้ว",                     total: 2  },
+        { name: "ตระกร้าแอมเบอร์",                      total: 4  },
+        { name: "สมุดปกอ่อน",                           total: 2  },
+        { name: "กระบอกน้ำ",                            total: 10 },
+        { name: "เบาะรองนั่งเก้าอี้",                   total: 1  },
+        { name: "กล่องอาหาร 2 ช่อง",                   total: 11 },
+        { name: "หมอนหนุนคละลาย",                       total: 3  },
+        { name: "ของเล่นที่ตักทราย",                    total: 3  },
+        { name: "ชุดของเล่นเด็ก (เครื่องบิน)",          total: 1  },
+        { name: "เก้าลิ้นชักมินิ 3ชิ้น",               total: 1  },
+        { name: "เครื่องปิ้งขนมปัง",                    total: 1  },
+        { name: "แก้วน้ำทัมเบลอร์ 10 Oz",              total: 4  },
+        { name: "เซ็ทแปรงสีฟัน",                       total: 1  },
+        { name: "กระติก 3L",                            total: 1  },
+        { name: "หม้อไฟฟ้าอเนกประสงค์",                total: 1  },
+        { name: "หมอนรองคอสติทซ์",                     total: 1  },
+        { name: "กล่องสบู่",                            total: 3  },
+        { name: "กล่องข้าวดิสนี",                       total: 9  },
+        { name: "ไม้ปิงปอง",                            total: 5  },
+        { name: "นาฬิกา",                               total: 1  },
+        { name: "แก้วลายการ์ตูน+หลอด",                 total: 1  },
+        { name: "กล่องใส่แปรงสีฟัน",                   total: 1  },
+        { name: "กล่องข้าว",                            total: 6  },
+        { name: "เพิ่มกล่องอาหาร Toy",                 total: 3  },
+        { name: "เก้าอี้",                              total: 3  },
+        { name: "พรมเช็ดเท้า",                          total: 3  },
+        { name: "กระเป๋ากระสอบ",                        total: 5  },
+        { name: "ขวดน้ำ",                               total: 7  }
     ];
 
     let employeeData = [];
@@ -576,7 +581,11 @@
                     if (!row || !row[empIdCol]) continue;
                     const id = normalizeId(row[empIdCol]);
                     if (!id) continue;
-                    employeeData.push({ empId: id, function: String(row[functionCol]||'').trim(), name: String(row[nameCol]||'').trim() });
+                    employeeData.push({
+                        empId: id,
+                        function: String(row[functionCol]||'').trim(),
+                        name: String(row[nameCol]||'').trim()
+                    });
                 }
 
                 if (employeeData.length > 0) {
@@ -599,7 +608,11 @@
     // ===== EMP AUTO FILL =====
     document.getElementById('empId').addEventListener('input', function() {
         const id = normalizeId(this.value);
-        if (!id) { document.getElementById('empFunction').value = ''; document.getElementById('empName').value = ''; return; }
+        if (!id) {
+            document.getElementById('empFunction').value = '';
+            document.getElementById('empName').value = '';
+            return;
+        }
         const emp = employeeData.find(e => e.empId === id);
         if (emp) {
             document.getElementById('empFunction').value = emp.function;
@@ -632,12 +645,15 @@
             const used = getUsed(p.name);
             const rem  = p.total - used;
             const lc   = leftClass(rem, p.total);
-            const isEmpty = rem <= 0;
+            const isEmpty   = rem <= 0;
             const isSelected = selectedPrizeName === p.name;
-            return '<div class="prize-card' + (isEmpty ? ' empty-card' : '') + (isSelected ? ' selected' : '') + '" onclick="selectPrize(\'' + escapeName(p.name) + '\')" id="pcard_' + i + '">' +
+            return '<div class="prize-card' +
+                (isEmpty    ? ' empty-card' : '') +
+                (isSelected ? ' selected'   : '') +
+                '" data-prize-index="' + i + '" onclick="selectPrize(' + i + ')">' +
                 '<div class="prize-card-top">' +
                 '<span class="prize-card-num">' + (i+1) + '.</span>' +
-                '<span class="prize-card-name">' + p.name + '</span>' +
+                '<span class="prize-card-name">' + escapeHtml(p.name) + '</span>' +
                 '</div>' +
                 '<div class="prize-card-badges">' +
                 '<div class="badge-wrap"><span class="badge-label">ทั้งหมด</span><span class="badge badge-total">' + p.total + '</span></div>' +
@@ -648,19 +664,23 @@
         }).join('');
     }
 
-    function escapeName(name) {
-        return name.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+    // ปลอดภัยกว่า escapeName เดิม — ป้องกัน XSS ใน HTML
+    function escapeHtml(str) {
+        return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
     }
 
-    function selectPrize(name) {
-        const rem = getRemaining(name);
+    // ใช้ index แทนการส่งชื่อผ่าน onclick string
+    function selectPrize(index) {
+        const prize = PRIZE_CATALOG[index];
+        if (!prize) return;
+        const name = prize.name;
+        const rem  = getRemaining(name);
         if (rem <= 0) { showAlert('warning', '⚠️ ของรางวัลนี้หมดแล้ว'); return; }
 
         selectedPrizeName = name;
         renderPrizeGrid();
 
-        const prize = PRIZE_CATALOG.find(p => p.name === name);
-        const used  = getUsed(name);
+        const used = getUsed(name);
 
         const disp = document.getElementById('selectedPrizeDisplay');
         disp.style.display = 'block';
@@ -673,7 +693,7 @@
         leftEl.className = 'spd-badge ' + (rem > Math.ceil(prize.total*0.3) ? 'spd-left-ok' : rem > 0 ? 'spd-left-warn' : 'spd-left-zero');
 
         document.getElementById('prizeQuantity').value = 1;
-        document.getElementById('prizeQuantity').max = rem;
+        document.getElementById('prizeQuantity').max   = rem;
 
         document.getElementById('empId').focus();
         showAlert('info', '🎁 เลือก: ' + name + ' (คงเหลือ ' + rem + ' ชิ้น)');
@@ -688,6 +708,13 @@
         input.value = val;
     }
 
+    // Validate qty เมื่อพิมพ์ตรง
+    document.getElementById('prizeQuantity').addEventListener('change', function() {
+        const rem = selectedPrizeName ? getRemaining(selectedPrizeName) : 99;
+        let val = parseInt(this.value) || 1;
+        this.value = Math.max(1, Math.min(rem, val));
+    });
+
     // ===== CHECK DUPLICATE EMP-ID =====
     function checkDuplicateEmpId(empId) {
         return records.filter(r => r.empId === empId);
@@ -695,15 +722,15 @@
 
     // ===== DUPLICATE MODAL =====
     function showDuplicateModal(empId, empName, duplicates) {
-        const modal = document.getElementById('duplicateModal');
-        const msg = document.getElementById('duplicateMsg');
+        const modal  = document.getElementById('duplicateModal');
+        const msg    = document.getElementById('duplicateMsg');
         const detail = document.getElementById('duplicateDetail');
 
-        msg.innerHTML = 'รหัสพนักงาน <strong>' + empId + '</strong> (' + empName + ')<br>เคยรับของรางวัลไปแล้ว <strong>' + duplicates.length + '</strong> รายการ';
+        msg.innerHTML = 'รหัสพนักงาน <strong>' + escapeHtml(empId) + '</strong> (' + escapeHtml(empName) + ')<br>เคยรับของรางวัลไปแล้ว <strong>' + duplicates.length + '</strong> รายการ';
 
         let detailHtml = '<strong>📋 รายการที่เคยรับ:</strong><br>';
         duplicates.forEach((d, i) => {
-            detailHtml += (i+1) + '. ' + d.prizeName + ' (จำนวน ' + d.prizeQuantity + ' ชิ้น) - ' + d.date + '<br>';
+            detailHtml += (i+1) + '. ' + escapeHtml(d.prizeName) + ' (จำนวน ' + d.prizeQuantity + ' ชิ้น) - ' + d.date + '<br>';
         });
         detailHtml += '<br><strong>ต้องการบันทึกเพิ่มอีกหรือไม่?</strong>';
         detail.innerHTML = detailHtml;
@@ -734,7 +761,7 @@
         const empName = document.getElementById('empName').value.trim();
 
         if (!qty || qty < 1) { showAlert('error', 'จำนวนไม่ถูกต้อง'); return; }
-        if (!empId) { showAlert('error', 'กรุณากรอก Emp-ID'); return; }
+        if (!empId)          { showAlert('error', 'กรุณากรอก Emp-ID'); return; }
         if (!empFunc || !empName) { showAlert('error', 'ไม่พบข้อมูลพนักงาน กรุณาตรวจสอบ Emp-ID'); return; }
 
         const rem = getRemaining(selectedPrizeName);
@@ -748,7 +775,6 @@
             date: new Date().toLocaleDateString('th-TH')
         };
 
-        // ตรวจสอบ Emp-ID ซ้ำ
         const duplicates = checkDuplicateEmpId(empId);
         if (duplicates.length > 0) {
             pendingRecord = recordData;
@@ -761,17 +787,23 @@
 
     function saveRecord(recordData) {
         records.push(recordData);
-
         displayRecords();
         renderPrizeGrid();
         updateStats();
         saveToLocalStorage();
 
-        if (selectedPrizeName) selectPrize(selectedPrizeName);
+        // รีเฟรช selected prize display หลังบันทึก
+        if (selectedPrizeName && getRemaining(selectedPrizeName) > 0) {
+            const idx = PRIZE_CATALOG.findIndex(p => p.name === selectedPrizeName);
+            if (idx >= 0) selectPrize(idx);
+        } else if (selectedPrizeName && getRemaining(selectedPrizeName) <= 0) {
+            document.getElementById('selectedPrizeDisplay').style.display = 'none';
+            selectedPrizeName = '';
+        }
 
-        document.getElementById('empId').value = '';
-        document.getElementById('empFunction').value = '';
-        document.getElementById('empName').value = '';
+        document.getElementById('empId').value        = '';
+        document.getElementById('empFunction').value  = '';
+        document.getElementById('empName').value      = '';
         document.getElementById('prizeQuantity').value = 1;
 
         showAlert('success', '✅ บันทึกสำเร็จ! ' + recordData.prizeName + ' จำนวน ' + recordData.prizeQuantity + ' ชิ้น ให้ ' + recordData.empName);
@@ -787,11 +819,11 @@
         tbody.innerHTML = records.map((r, i) =>
             '<tr>' +
             '<td>' + (i+1) + '</td>' +
-            '<td><strong>' + r.prizeName + '</strong></td>' +
+            '<td><strong>' + escapeHtml(r.prizeName) + '</strong></td>' +
             '<td>' + r.prizeQuantity + '</td>' +
-            '<td>' + r.empId + '</td>' +
-            '<td>' + r.empFunction + '</td>' +
-            '<td>' + r.empName + '</td>' +
+            '<td>' + escapeHtml(r.empId) + '</td>' +
+            '<td>' + escapeHtml(r.empFunction) + '</td>' +
+            '<td>' + escapeHtml(r.empName) + '</td>' +
             '<td>' + r.date + '</td>' +
             '<td><button class="delete-btn" onclick="deleteRecord(' + r.id + ')">🗑️</button></td>' +
             '</tr>'
@@ -805,7 +837,10 @@
         renderPrizeGrid();
         updateStats();
         saveToLocalStorage();
-        if (selectedPrizeName) selectPrize(selectedPrizeName);
+        if (selectedPrizeName && getRemaining(selectedPrizeName) > 0) {
+            const idx = PRIZE_CATALOG.findIndex(p => p.name === selectedPrizeName);
+            if (idx >= 0) selectPrize(idx);
+        }
         showAlert('success', 'ลบสำเร็จ');
     }
 
@@ -825,36 +860,63 @@
         selectedPrizeName = '';
         document.getElementById('selectedPrizeDisplay').style.display = 'none';
         document.getElementById('prizeQuantity').value = 1;
-        document.getElementById('empId').value = '';
-        document.getElementById('empFunction').value = '';
-        document.getElementById('empName').value = '';
+        document.getElementById('empId').value        = '';
+        document.getElementById('empFunction').value  = '';
+        document.getElementById('empName').value      = '';
         renderPrizeGrid();
     }
 
     function updateStats() {
         document.getElementById('totalRecords').textContent = records.length;
-        document.getElementById('totalPrizes').textContent = records.reduce((s,r) => s + r.prizeQuantity, 0);
+        document.getElementById('totalPrizes').textContent  = records.reduce((s,r) => s + r.prizeQuantity, 0);
     }
 
-    // ===== EXPORT =====
+    // ===== EXPORT (2 Sheets) =====
     function exportToExcel() {
         if (records.length === 0) { showAlert('error', 'ไม่มีข้อมูลให้ Export'); return; }
-        const data = records.map((r,i) => ({
-            'ลำดับ': i+1, 'ชื่อของรางวัล': r.prizeName,
-            'จำนวน': r.prizeQuantity, 'Emp-ID': r.empId,
-            'Function': r.empFunction, 'Name': r.empName, 'วันที่': r.date
+
+        // Sheet 1: รายการทั้งหมด
+        const data1 = records.map((r,i) => ({
+            'ลำดับ': i+1,
+            'ชื่อของรางวัล': r.prizeName,
+            'จำนวน': r.prizeQuantity,
+            'Emp-ID': r.empId,
+            'Function': r.empFunction,
+            'Name': r.empName,
+            'วันที่': r.date
         }));
-        const ws = XLSX.utils.json_to_sheet(data);
+        const ws1 = XLSX.utils.json_to_sheet(data1);
+
+        // Sheet 2: สรุปสต็อก
+        const data2 = PRIZE_CATALOG.map((p, i) => {
+            const used = getUsed(p.name);
+            const rem  = p.total - used;
+            return {
+                'ลำดับ': i+1,
+                'ชื่อของรางวัล': p.name,
+                'จำนวนทั้งหมด': p.total,
+                'แจกแล้ว': used,
+                'คงเหลือ': rem,
+                '% ใช้': Math.round((used / p.total) * 100) + '%'
+            };
+        });
+        const ws2 = XLSX.utils.json_to_sheet(data2);
+
         const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Prize Records');
+        XLSX.utils.book_append_sheet(wb, ws1, 'Prize Records');
+        XLSX.utils.book_append_sheet(wb, ws2, 'Stock Summary');
         XLSX.writeFile(wb, 'Prize_Records_' + new Date().toISOString().split('T')[0] + '.xlsx');
-        showAlert('success', 'Export สำเร็จ!');
+        showAlert('success', '📥 Export สำเร็จ! (2 sheets: Records + Stock Summary)');
     }
 
     // ===== ALERT =====
     function showAlert(type, msg) {
-        ['Success','Error','Info','Warning'].forEach(t => document.getElementById('alert'+t).style.display = 'none');
-        const el = document.getElementById('alert' + type.charAt(0).toUpperCase() + type.slice(1));
+        ['Success','Error','Info','Warning'].forEach(t =>
+            document.getElementById('alert'+t).style.display = 'none'
+        );
+        const key = type.charAt(0).toUpperCase() + type.slice(1);
+        const el  = document.getElementById('alert' + key);
+        if (!el) return;
         el.innerHTML = msg;
         el.style.display = 'block';
         setTimeout(() => el.style.display = 'none', 5000);
@@ -864,14 +926,16 @@
         if (!employeeData.length) { showAlert('warning', 'กรุณาอัพโหลดไฟล์ Excel ก่อน'); return; }
         const s = employeeData.slice(0, 5);
         let msg = '<strong>ตัวอย่าง 5 คนแรก:</strong><br>';
-        s.forEach((e,i) => { msg += (i+1) + '. ID: <b>' + e.empId + '</b> | ' + e.function + ' | ' + e.name + '<br>'; });
+        s.forEach((e,i) => {
+            msg += (i+1) + '. ID: <b>' + escapeHtml(e.empId) + '</b> | ' + escapeHtml(e.function) + ' | ' + escapeHtml(e.name) + '<br>';
+        });
         showAlert('info', msg);
     }
 
     // ===== STORAGE =====
     function saveToLocalStorage() {
-        localStorage.setItem('prizeRecords', JSON.stringify(records));
-        localStorage.setItem('employeeData', JSON.stringify(employeeData));
+        localStorage.setItem('prizeRecords',  JSON.stringify(records));
+        localStorage.setItem('employeeData',  JSON.stringify(employeeData));
     }
     function loadFromLocalStorage() {
         const r = localStorage.getItem('prizeRecords');
