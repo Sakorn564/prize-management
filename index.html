@@ -501,44 +501,46 @@
 </div>
 
 <script>
-    // ===== PRIZE CATALOG (อัปเดตรายการใหม่ 36 รายการ) =====
+    // ===== PRIZE CATALOG (38 รายการใหม่) =====
     const PRIZE_CATALOG = [
-        { name: "กระดาษโน๊ต",                          total: 3  },
-        { name: "กะละมังล้างผัก",                       total: 5  },
-        { name: "กระติกน้ำแข็ง",                        total: 1  },
-        { name: "กล่องอาหารกลมชุด 8 ชิ้น",             total: 3  },
-        { name: "กระเป๋ากระสอบ",                        total: 6  },
-        { name: "ไม้แขวนเสื้อตราโลตัส",                 total: 6  },
-        { name: "หวี",                                  total: 7  },
-        { name: "พัด",                                  total: 3  },
-        { name: "ถังเหลี่ยมหูหิ้ว",                     total: 2  },
-        { name: "ตระกร้าแอมเบอร์",                      total: 4  },
+        { name: "ถังน้ำ Summer",                        total: 6  },
+        { name: "พัดลมพกพาสีขาว",                       total: 2  },
+        { name: "กระบอกน้ำลายสนูปปี้",                  total: 2  },
+        { name: "พัดลมพกพา",                            total: 2  },
+        { name: "เหยือกน้ำชมพูลายคิตตี้",               total: 1  },
+        { name: "เซตกล่องข้าว",                         total: 1  },
+        { name: "กะทะเคลือบใหญ่",                       total: 1  },
+        { name: "ชุดไม้แบตมินตัน",                      total: 1  },
+        { name: "กระบอกน้ำเล็ก",                        total: 3  },
+        { name: "ตระกร้าแอมเบอร์",                      total: 2  },
+        { name: "กระดาษโน๊ต",                           total: 2  },
+        { name: "กล่องอาหาร 2 ช่อง",                   total: 2  },
+        { name: "กล่องอาหารเซต8ชิ้น",                  total: 2  },
         { name: "สมุดปกอ่อน",                           total: 2  },
-        { name: "กระบอกน้ำ",                            total: 10 },
-        { name: "เบาะรองนั่งเก้าอี้",                   total: 1  },
-        { name: "กล่องอาหาร 2 ช่อง",                   total: 11 },
-        { name: "หมอนหนุนคละลาย",                       total: 3  },
-        { name: "ของเล่นที่ตักทราย",                    total: 3  },
-        { name: "ชุดของเล่นเด็ก (เครื่องบิน)",          total: 1  },
-        { name: "เก้าลิ้นชักมินิ 3ชิ้น",               total: 1  },
-        { name: "เครื่องปิ้งขนมปัง",                    total: 1  },
-        { name: "แก้วน้ำทัมเบลอร์ 10 Oz",              total: 4  },
-        { name: "เซ็ทแปรงสีฟัน",                       total: 1  },
-        { name: "กระติก 3L",                            total: 1  },
-        { name: "หม้อไฟฟ้าอเนกประสงค์",                total: 1  },
-        { name: "หมอนรองคอสติทซ์",                     total: 1  },
-        { name: "กล่องสบู่",                            total: 3  },
-        { name: "กล่องข้าวดิสนี",                       total: 9  },
-        { name: "ไม้ปิงปอง",                            total: 5  },
+        { name: "กระเป๋าเป้สีเหลือง",                   total: 1  },
+        { name: "กระทะ",                                total: 2  },
         { name: "นาฬิกา",                               total: 1  },
-        { name: "แก้วลายการ์ตูน+หลอด",                 total: 1  },
-        { name: "กล่องใส่แปรงสีฟัน",                   total: 1  },
-        { name: "กล่องข้าว",                            total: 6  },
-        { name: "เพิ่มกล่องอาหาร Toy",                 total: 3  },
-        { name: "เก้าอี้",                              total: 3  },
+        { name: "แก้วน้ำทัมเบอร์",                      total: 2  },
+        { name: "บิงโก Bingo",                          total: 1  },
+        { name: "ที่เสียบปากกา",                        total: 1  },
+        { name: "กระติกน้ำ3Lลายการ์ตูน",               total: 2  },
+        { name: "กระติกน้ำ3L",                          total: 1  },
+        { name: "หลอดไฟLED",                           total: 3  },
+        { name: "หมอนลายมิกกี้เม้าส์",                  total: 3  },
+        { name: "เก้าอี้",                              total: 4  },
         { name: "พรมเช็ดเท้า",                          total: 3  },
         { name: "กระเป๋ากระสอบ",                        total: 5  },
-        { name: "ขวดน้ำ",                               total: 7  }
+        { name: "กระเป๋าไอแพด",                         total: 2  },
+        { name: "แผ่นรองเม้าท์",                        total: 2  },
+        { name: "สมุดใหญ่",                             total: 2  },
+        { name: "ที่คาดผม",                             total: 4  },
+        { name: "ขวดน้ำ",                               total: 7  },
+        { name: "โมเมนโตหมอนหนุนสุขภาพ",               total: 5  },
+        { name: "ผ้าเช็ดตัวลายการ์ตูน(30x60นิ้ว)",     total: 2  },
+        { name: "ผ้าห่มแฟลเนล (60x80นิ้ว)",            total: 6  },
+        { name: "แก้วมัค",                              total: 24 },
+        { name: "ไม้แบด",                               total: 2  },
+        { name: "หมอน Toy story",                       total: 4  }
     ];
 
     let employeeData = [];
@@ -664,12 +666,10 @@
         }).join('');
     }
 
-    // ปลอดภัยกว่า escapeName เดิม — ป้องกัน XSS ใน HTML
     function escapeHtml(str) {
         return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
     }
 
-    // ใช้ index แทนการส่งชื่อผ่าน onclick string
     function selectPrize(index) {
         const prize = PRIZE_CATALOG[index];
         if (!prize) return;
@@ -708,7 +708,6 @@
         input.value = val;
     }
 
-    // Validate qty เมื่อพิมพ์ตรง
     document.getElementById('prizeQuantity').addEventListener('change', function() {
         const rem = selectedPrizeName ? getRemaining(selectedPrizeName) : 99;
         let val = parseInt(this.value) || 1;
@@ -792,7 +791,6 @@
         updateStats();
         saveToLocalStorage();
 
-        // รีเฟรช selected prize display หลังบันทึก
         if (selectedPrizeName && getRemaining(selectedPrizeName) > 0) {
             const idx = PRIZE_CATALOG.findIndex(p => p.name === selectedPrizeName);
             if (idx >= 0) selectPrize(idx);
@@ -875,7 +873,6 @@
     function exportToExcel() {
         if (records.length === 0) { showAlert('error', 'ไม่มีข้อมูลให้ Export'); return; }
 
-        // Sheet 1: รายการทั้งหมด
         const data1 = records.map((r,i) => ({
             'ลำดับ': i+1,
             'ชื่อของรางวัล': r.prizeName,
@@ -887,7 +884,6 @@
         }));
         const ws1 = XLSX.utils.json_to_sheet(data1);
 
-        // Sheet 2: สรุปสต็อก
         const data2 = PRIZE_CATALOG.map((p, i) => {
             const used = getUsed(p.name);
             const rem  = p.total - used;
