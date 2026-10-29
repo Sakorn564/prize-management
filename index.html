@@ -47,7 +47,6 @@
             font-weight: 700;
         }
 
-        /* ===== PRIZE GRID ===== */
         .prize-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -130,7 +129,6 @@
         }
         .badge-wrap { text-align: center; }
 
-        /* ===== FORM ===== */
         .form-group { margin-bottom: 16px; }
         label {
             display: block;
@@ -170,10 +168,6 @@
             font-size: 1.1em;
             font-weight: 700;
             margin-bottom: 4px;
-        }
-        .selected-prize-display .spd-info {
-            font-size: 0.9em;
-            opacity: 0.9;
         }
         .spd-badges { display: flex; gap: 8px; margin-top: 8px; }
         .spd-badge {
@@ -241,7 +235,6 @@
         .alert-info    { background: #d1ecf1; color: #0c5460; border-left: 5px solid #17a2b8; }
         .alert-warning { background: #fff3cd; color: #856404; border-left: 5px solid #ffc107; }
 
-        /* ===== TABLE ===== */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -298,7 +291,6 @@
         #fileInput { display: none; }
         .file-name { margin-top: 8px; color: #666; font-style: italic; font-size: 0.9em; }
 
-        /* ===== DUPLICATE POPUP MODAL ===== */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -321,11 +313,11 @@
         }
         @keyframes modalPop {
             from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            to   { transform: scale(1);   opacity: 1; }
         }
-        .modal-icon { font-size: 3em; margin-bottom: 16px; }
+        .modal-icon  { font-size: 3em; margin-bottom: 16px; }
         .modal-title { font-size: 1.4em; font-weight: 700; color: #dc3545; margin-bottom: 12px; }
-        .modal-msg { font-size: 1em; color: #555; margin-bottom: 8px; line-height: 1.6; }
+        .modal-msg   { font-size: 1em; color: #555; margin-bottom: 8px; line-height: 1.6; }
         .modal-detail {
             background: #fff3cd;
             border-radius: 10px;
@@ -346,16 +338,16 @@
             font-family: inherit;
             transition: all 0.2s;
         }
-        .modal-btn-cancel { background: #6c757d; color: white; }
-        .modal-btn-cancel:hover { background: #5a6268; }
+        .modal-btn-cancel  { background: #6c757d; color: white; }
+        .modal-btn-cancel:hover  { background: #5a6268; }
         .modal-btn-confirm { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
         .modal-btn-confirm:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102,126,234,0.4); }
 
         @media (max-width: 768px) {
             .prize-grid { grid-template-columns: repeat(2, 1fr); }
-            .form-row { grid-template-columns: 1fr; }
-            .header h1 { font-size: 1.6em; }
-            .content { padding: 16px; }
+            .form-row   { grid-template-columns: 1fr; }
+            .header h1  { font-size: 1.6em; }
+            .content    { padding: 16px; }
         }
         @media (max-width: 480px) {
             .prize-grid { grid-template-columns: 1fr; }
@@ -395,7 +387,7 @@
             </div>
         </div>
 
-        <!-- Section 2: Prize Grid Click -->
+        <!-- Section 2: Prize Grid -->
         <div class="section">
             <div class="section-title">🎯 ขั้นตอนที่ 2: เลือกของรางวัล (คลิกเลยครับ)</div>
             <div class="prize-grid" id="prizeGrid"></div>
@@ -410,7 +402,7 @@
                 <div class="spd-badges">
                     <span class="spd-badge spd-total" id="spdTotal"></span>
                     <span class="spd-badge spd-used"  id="spdUsed"></span>
-                    <span class="spd-badge" id="spdLeft"></span>
+                    <span class="spd-badge"            id="spdLeft"></span>
                 </div>
             </div>
 
@@ -486,70 +478,61 @@
     </div>
 </div>
 
-<!-- Duplicate Employee Popup Modal -->
+<!-- Duplicate Modal -->
 <div class="modal-overlay" id="duplicateModal">
     <div class="modal-box">
         <div class="modal-icon">⚠️</div>
         <div class="modal-title">พบรหัสพนักงานซ้ำ!</div>
-        <div class="modal-msg" id="duplicateMsg"></div>
+        <div class="modal-msg"    id="duplicateMsg"></div>
         <div class="modal-detail" id="duplicateDetail"></div>
         <div class="modal-btn-group">
-            <button class="modal-btn modal-btn-cancel" onclick="closeDuplicateModal()">❌ ยกเลิก</button>
+            <button class="modal-btn modal-btn-cancel"  onclick="closeDuplicateModal()">❌ ยกเลิก</button>
             <button class="modal-btn modal-btn-confirm" onclick="confirmDuplicate()">✅ บันทึกต่อ</button>
         </div>
     </div>
 </div>
 
 <script>
-    // ===== PRIZE CATALOG (อัปเดตใหม่ตาม List ล่าสุด) =====
+    // ===== PRIZE CATALOG (อัปเดตใหม่) =====
     const PRIZE_CATALOG = [
-        { name: "ถังน้ำ Summer",                         total: 6  },
-        { name: "พัดลมพกพาสีขาว",                        total: 2  },
-        { name: "กระบอกน้ำลายสนูปปี้",                   total: 1  },
-        { name: "พัดลมพกพา",                             total: 1  },
-        { name: "เหยือกน้ำชมพูลายคิตตี้",                total: 1  },
-        { name: "เซตกล่องข้าว",                          total: 1  },
-        { name: "กะทะเคลือบเล็ก",                        total: 1  },
-        { name: "ชุดไม้แบตมินตัน",                       total: 1  },
-        { name: "กระบอกน้ำเล็ก",                         total: 2  },
-        { name: "ตะหลิว พลาสติก",                        total: 1  },
-        { name: "ผ้าปูโต๊ะ",                             total: 2  },
-        { name: "ถังเหลี่ยมชมู มายเมโลดี้",              total: 1  },
-        { name: "กระติกน้ำ4L ชมพู",                      total: 1  },
-        { name: "กระเป๋ากระสอบเล็ก",                     total: 3  },
-        { name: "กระดาษโน๊ต",                            total: 2  },
-        { name: "กล่องอาหาร 2 ช่อง",                    total: 2  },
-        { name: "หวีใหญ่",                               total: 2  },
-        { name: "สมุดปกอ่อน",                            total: 2  },
-        { name: "แก้วน้ำสีฟ้าลายหมา",                    total: 1  },
-        { name: "ไม้แขวนเสื้อ",                          total: 2  },
-        { name: "กระเป๋าสีเทา",                          total: 1  },
-        { name: "แก้วน้ำทัมเบอร์",                       total: 3  },
-        { name: "บิงโก Bingo",                           total: 2  },
-        { name: "ที่เสียบปากกา",                         total: 1  },
-        { name: "กระติกน้ำ3L",                           total: 1  },
-        { name: "หลอดไฟLED",                            total: 3  },
-        { name: "ผ้าห่ม",                                total: 1  },
-        { name: "เก้าอี้",                               total: 3  },
-        { name: "กระเป๋ากระสอบ",                         total: 6  },
-        { name: "กระเป๋าไอแพด",                          total: 3  },
-        { name: "แผ่นรองเม้าท์",                         total: 2  },
-        { name: "สมุดใหญ่",                              total: 2  },
-        { name: "สมุดโน๊ต",                              total: 3  },
-        { name: "ขวดน้ำ",                                total: 8  },
-        { name: "กระบอกน้ำ",                             total: 1  },
-        { name: "โมเมนโตหมอนหนุนสุขภาพ",                total: 5  },
-        { name: "ผ้าเช็ดตัวลายการ์ตูน(30x60นิ้ว)",      total: 3  },
-        { name: "ผ้าห่มแฟลเนล (60x80นิ้ว)",             total: 6  },
-        { name: "แก้วมัค",                               total: 21 },
-        { name: "ไม้แบด",                                total: 2  },
-        { name: "หมอน Toy story",                        total: 3  }
+        { name: "หลอดไฟLED",                              total: 2  },
+        { name: "ถังน้ำ Summer",                           total: 15 },
+        { name: "บิงโก Bingo",                             total: 2  },
+        { name: "โมเมนโตหมอนหนุนสุขภาพ",                  total: 3  },
+        { name: "กะทะด้ามหล่อ",                            total: 1  },
+        { name: "แก้วมัค",                                 total: 21 },
+        { name: "กระติกน้ำ 4 L",                           total: 2  },
+        { name: "เหยือกน้ำ Kuromi สีชมพู",                 total: 1  },
+        { name: "ถังเหลี่ยมหูวัวลายมายเมโลดี้",            total: 2  },
+        { name: "กล่องเวฟ ดิสนีย์",                        total: 2  },
+        { name: "ไม้แขวนเสื้อโลตัส",                      total: 4  },
+        { name: "กล่องข้าว 2 ช่อง",                       total: 2  },
+        { name: "กล่องข้าว พร้อม 2 ช้อน",                 total: 2  },
+        { name: "แก้วน้ำมีหูวัว สีฟ้า 376",               total: 1  },
+        { name: "สมุดปกอ่อน",                              total: 4  },
+        { name: "แก้วน้ำทัมเบอร์ สีขาว",                  total: 3  },
+        { name: "แก้วน้ำลาย SNOPPY",                       total: 1  },
+        { name: "ผ้าปูโต๊ะสก๊อต ลายน้ำตาล",               total: 2  },
+        { name: "กระเป๋ากระสอบใหญ่",                      total: 5  },
+        { name: "หวีใหญ่",                                 total: 6  },
+        { name: "พัดลมมินิ FAN สีขาว",                     total: 2  },
+        { name: "ขวดน้ำ 374",                              total: 10 },
+        { name: "ที่ปิ้งขนมปัง",                           total: 1  },
+        { name: "กระเป๋าเป้ จิเอฉ สีเทา",                 total: 1  },
+        { name: "หมอนหนุน คละลาย",                         total: 1  },
+        { name: "กล่องอาหารเซต8ชิ้น",                     total: 1  },
+        { name: "พรมเช็ดเท้า",                             total: 4  },
+        { name: "ผ้าห่มแฟลเนล (60x80นิ้ว)",               total: 6  },
+        { name: "เบาะรองนั่งลาย Toy story",                total: 2  },
+        { name: "ผ้าขนหนูพิมพ์ลาย SANRIO",                total: 3  },
+        { name: "เก้าอี้ สนาม",                            total: 3  },
+        { name: "กระเป๋าไอแพด",                            total: 3  }
     ];
 
-    let employeeData = [];
-    let records = [];
+    let employeeData    = [];
+    let records         = [];
     let selectedPrizeName = '';
-    let pendingRecord = null;
+    let pendingRecord   = null;
 
     window.onload = function() {
         loadFromLocalStorage();
@@ -565,9 +548,9 @@
         const reader = new FileReader();
         reader.onload = function(e) {
             try {
-                const data = new Uint8Array(e.target.result);
-                const wb = XLSX.read(data, { type: 'array' });
-                const ws = wb.Sheets[wb.SheetNames[0]];
+                const data  = new Uint8Array(e.target.result);
+                const wb    = XLSX.read(data, { type: 'array' });
+                const ws    = wb.Sheets[wb.SheetNames[0]];
                 const rawData = XLSX.utils.sheet_to_json(ws, { header: 1, raw: false, defval: '' });
                 if (rawData.length < 2) { showAlert('error', 'ไม่พบข้อมูลในไฟล์'); return; }
 
@@ -587,9 +570,9 @@
                     const id = normalizeId(row[empIdCol]);
                     if (!id) continue;
                     employeeData.push({
-                        empId: id,
+                        empId:    id,
                         function: String(row[functionCol]||'').trim(),
-                        name: String(row[nameCol]||'').trim()
+                        name:     String(row[nameCol]||'').trim()
                     });
                 }
 
@@ -615,17 +598,17 @@
         const id = normalizeId(this.value);
         if (!id) {
             document.getElementById('empFunction').value = '';
-            document.getElementById('empName').value = '';
+            document.getElementById('empName').value     = '';
             return;
         }
         const emp = employeeData.find(e => e.empId === id);
         if (emp) {
             document.getElementById('empFunction').value = emp.function;
-            document.getElementById('empName').value = emp.name;
+            document.getElementById('empName').value     = emp.name;
             showAlert('info', '✅ พบ: ' + emp.name + ' (' + emp.function + ')');
         } else {
             document.getElementById('empFunction').value = '';
-            document.getElementById('empName').value = '';
+            document.getElementById('empName').value     = '';
             if (id.length >= 4) showAlert('warning', '❌ ไม่พบ Emp-ID: ' + id);
         }
     });
@@ -639,8 +622,8 @@
         return p ? p.total - getUsed(name) : 0;
     }
     function leftClass(rem, total) {
-        if (rem <= 0) return 'badge-left-zero';
-        if (rem <= Math.ceil(total * 0.3)) return 'badge-left-warn';
+        if (rem <= 0)                          return 'badge-left-zero';
+        if (rem <= Math.ceil(total * 0.3))     return 'badge-left-warn';
         return 'badge-left-ok';
     }
 
@@ -650,22 +633,21 @@
             const used = getUsed(p.name);
             const rem  = p.total - used;
             const lc   = leftClass(rem, p.total);
-            const isEmpty   = rem <= 0;
+            const isEmpty    = rem <= 0;
             const isSelected = selectedPrizeName === p.name;
             return '<div class="prize-card' +
                 (isEmpty    ? ' empty-card' : '') +
                 (isSelected ? ' selected'   : '') +
-                '" data-prize-index="' + i + '" onclick="selectPrize(' + i + ')">' +
+                '" onclick="selectPrize(' + i + ')">' +
                 '<div class="prize-card-top">' +
                 '<span class="prize-card-num">' + (i+1) + '.</span>' +
                 '<span class="prize-card-name">' + escapeHtml(p.name) + '</span>' +
                 '</div>' +
                 '<div class="prize-card-badges">' +
                 '<div class="badge-wrap"><span class="badge-label">ทั้งหมด</span><span class="badge badge-total">' + p.total + '</span></div>' +
-                '<div class="badge-wrap"><span class="badge-label">ใช้</span><span class="badge badge-used">' + used + '</span></div>' +
-                '<div class="badge-wrap"><span class="badge-label">เหลือ</span><span class="badge ' + lc + '">' + rem + '</span></div>' +
-                '</div>' +
-                '</div>';
+                '<div class="badge-wrap"><span class="badge-label">ใช้</span><span class="badge badge-used">'  + used  + '</span></div>' +
+                '<div class="badge-wrap"><span class="badge-label">เหลือ</span><span class="badge ' + lc + '">' + rem   + '</span></div>' +
+                '</div></div>';
         }).join('');
     }
 
@@ -683,74 +665,60 @@
         selectedPrizeName = name;
         renderPrizeGrid();
 
-        const used = getUsed(name);
-
-        const disp = document.getElementById('selectedPrizeDisplay');
+        const used  = getUsed(name);
+        const disp  = document.getElementById('selectedPrizeDisplay');
         disp.style.display = 'block';
-        document.getElementById('spdName').textContent = '🎁 ' + name;
+        document.getElementById('spdName').textContent  = '🎁 ' + name;
         document.getElementById('spdTotal').textContent = 'ทั้งหมด ' + prize.total + ' ชิ้น';
         document.getElementById('spdUsed').textContent  = 'ใช้แล้ว ' + used + ' ชิ้น';
 
         const leftEl = document.getElementById('spdLeft');
         leftEl.textContent = 'เหลือ ' + rem + ' ชิ้น';
-        leftEl.className = 'spd-badge ' + (rem > Math.ceil(prize.total*0.3) ? 'spd-left-ok' : rem > 0 ? 'spd-left-warn' : 'spd-left-zero');
+        leftEl.className   = 'spd-badge ' + (rem > Math.ceil(prize.total*0.3) ? 'spd-left-ok' : rem > 0 ? 'spd-left-warn' : 'spd-left-zero');
 
         document.getElementById('prizeQuantity').value = 1;
         document.getElementById('prizeQuantity').max   = rem;
-
         document.getElementById('empId').focus();
         showAlert('info', '🎁 เลือก: ' + name + ' (คงเหลือ ' + rem + ' ชิ้น)');
     }
 
-    // ===== QTY BUTTONS =====
+    // ===== QTY =====
     function changeQty(delta) {
         const input = document.getElementById('prizeQuantity');
-        let val = parseInt(input.value) || 1;
-        const rem = selectedPrizeName ? getRemaining(selectedPrizeName) : 99;
-        val = Math.max(1, Math.min(rem, val + delta));
-        input.value = val;
+        let val     = parseInt(input.value) || 1;
+        const rem   = selectedPrizeName ? getRemaining(selectedPrizeName) : 99;
+        input.value = Math.max(1, Math.min(rem, val + delta));
     }
-
     document.getElementById('prizeQuantity').addEventListener('change', function() {
-        const rem = selectedPrizeName ? getRemaining(selectedPrizeName) : 99;
-        let val = parseInt(this.value) || 1;
-        this.value = Math.max(1, Math.min(rem, val));
+        const rem   = selectedPrizeName ? getRemaining(selectedPrizeName) : 99;
+        this.value  = Math.max(1, Math.min(rem, parseInt(this.value) || 1));
     });
 
-    // ===== CHECK DUPLICATE EMP-ID =====
+    // ===== DUPLICATE CHECK =====
     function checkDuplicateEmpId(empId) {
         return records.filter(r => r.empId === empId);
     }
 
-    // ===== DUPLICATE MODAL =====
     function showDuplicateModal(empId, empName, duplicates) {
-        const modal  = document.getElementById('duplicateModal');
-        const msg    = document.getElementById('duplicateMsg');
-        const detail = document.getElementById('duplicateDetail');
+        document.getElementById('duplicateMsg').innerHTML =
+            'รหัสพนักงาน <strong>' + escapeHtml(empId) + '</strong> (' + escapeHtml(empName) + ')<br>' +
+            'เคยรับของรางวัลไปแล้ว <strong>' + duplicates.length + '</strong> รายการ';
 
-        msg.innerHTML = 'รหัสพนักงาน <strong>' + escapeHtml(empId) + '</strong> (' + escapeHtml(empName) + ')<br>เคยรับของรางวัลไปแล้ว <strong>' + duplicates.length + '</strong> รายการ';
-
-        let detailHtml = '<strong>📋 รายการที่เคยรับ:</strong><br>';
+        let html = '<strong>📋 รายการที่เคยรับ:</strong><br>';
         duplicates.forEach((d, i) => {
-            detailHtml += (i+1) + '. ' + escapeHtml(d.prizeName) + ' (จำนวน ' + d.prizeQuantity + ' ชิ้น) - ' + d.date + '<br>';
+            html += (i+1) + '. ' + escapeHtml(d.prizeName) + ' (จำนวน ' + d.prizeQuantity + ' ชิ้น) - ' + d.date + '<br>';
         });
-        detailHtml += '<br><strong>ต้องการบันทึกเพิ่มอีกหรือไม่?</strong>';
-        detail.innerHTML = detailHtml;
-
-        modal.classList.add('show');
+        html += '<br><strong>ต้องการบันทึกเพิ่มอีกหรือไม่?</strong>';
+        document.getElementById('duplicateDetail').innerHTML = html;
+        document.getElementById('duplicateModal').classList.add('show');
     }
-
     function closeDuplicateModal() {
         document.getElementById('duplicateModal').classList.remove('show');
         pendingRecord = null;
     }
-
     function confirmDuplicate() {
         document.getElementById('duplicateModal').classList.remove('show');
-        if (pendingRecord) {
-            saveRecord(pendingRecord);
-            pendingRecord = null;
-        }
+        if (pendingRecord) { saveRecord(pendingRecord); pendingRecord = null; }
     }
 
     // ===== ADD RECORD =====
@@ -762,9 +730,9 @@
         const empFunc = document.getElementById('empFunction').value.trim();
         const empName = document.getElementById('empName').value.trim();
 
-        if (!qty || qty < 1) { showAlert('error', 'จำนวนไม่ถูกต้อง'); return; }
-        if (!empId)          { showAlert('error', 'กรุณากรอก Emp-ID'); return; }
-        if (!empFunc || !empName) { showAlert('error', 'ไม่พบข้อมูลพนักงาน กรุณาตรวจสอบ Emp-ID'); return; }
+        if (!qty || qty < 1)          { showAlert('error', 'จำนวนไม่ถูกต้อง'); return; }
+        if (!empId)                   { showAlert('error', 'กรุณากรอก Emp-ID'); return; }
+        if (!empFunc || !empName)     { showAlert('error', 'ไม่พบข้อมูลพนักงาน กรุณาตรวจสอบ Emp-ID'); return; }
 
         const rem = getRemaining(selectedPrizeName);
         if (qty > rem) { showAlert('error', '❌ ของรางวัลคงเหลือ ' + rem + ' ชิ้น ไม่เพียงพอ'); return; }
@@ -777,12 +745,8 @@
             date: new Date().toLocaleDateString('th-TH')
         };
 
-        const duplicates = checkDuplicateEmpId(empId);
-        if (duplicates.length > 0) {
-            pendingRecord = recordData;
-            showDuplicateModal(empId, empName, duplicates);
-            return;
-        }
+        const dups = checkDuplicateEmpId(empId);
+        if (dups.length > 0) { pendingRecord = recordData; showDuplicateModal(empId, empName, dups); return; }
 
         saveRecord(recordData);
     }
@@ -802,10 +766,10 @@
             selectedPrizeName = '';
         }
 
-        document.getElementById('empId').value        = '';
-        document.getElementById('empFunction').value  = '';
-        document.getElementById('empName').value      = '';
-        document.getElementById('prizeQuantity').value = 1;
+        document.getElementById('empId').value         = '';
+        document.getElementById('empFunction').value   = '';
+        document.getElementById('empName').value        = '';
+        document.getElementById('prizeQuantity').value  = 1;
 
         showAlert('success', '✅ บันทึกสำเร็จ! ' + recordData.prizeName + ' จำนวน ' + recordData.prizeQuantity + ' ชิ้น ให้ ' + recordData.empName);
     }
@@ -834,25 +798,18 @@
     function deleteRecord(id) {
         if (!confirm('ลบรายการนี้?')) return;
         records = records.filter(r => r.id !== id);
-        displayRecords();
-        renderPrizeGrid();
-        updateStats();
-        saveToLocalStorage();
-        if (selectedPrizeName && getRemaining(selectedPrizeName) > 0) {
+        displayRecords(); renderPrizeGrid(); updateStats(); saveToLocalStorage();
+        if (selectedPrizeName) {
             const idx = PRIZE_CATALOG.findIndex(p => p.name === selectedPrizeName);
-            if (idx >= 0) selectPrize(idx);
+            if (idx >= 0 && getRemaining(selectedPrizeName) > 0) selectPrize(idx);
         }
         showAlert('success', 'ลบสำเร็จ');
     }
 
     function clearAllRecords() {
         if (!confirm('ลบข้อมูลทั้งหมด?')) return;
-        records = [];
-        selectedPrizeName = '';
-        displayRecords();
-        renderPrizeGrid();
-        updateStats();
-        saveToLocalStorage();
+        records = []; selectedPrizeName = '';
+        displayRecords(); renderPrizeGrid(); updateStats(); saveToLocalStorage();
         document.getElementById('selectedPrizeDisplay').style.display = 'none';
         showAlert('success', 'ล้างข้อมูลทั้งหมดสำเร็จ');
     }
@@ -861,9 +818,9 @@
         selectedPrizeName = '';
         document.getElementById('selectedPrizeDisplay').style.display = 'none';
         document.getElementById('prizeQuantity').value = 1;
-        document.getElementById('empId').value        = '';
-        document.getElementById('empFunction').value  = '';
-        document.getElementById('empName').value      = '';
+        document.getElementById('empId').value         = '';
+        document.getElementById('empFunction').value   = '';
+        document.getElementById('empName').value        = '';
         renderPrizeGrid();
     }
 
@@ -872,49 +829,36 @@
         document.getElementById('totalPrizes').textContent  = records.reduce((s,r) => s + r.prizeQuantity, 0);
     }
 
-    // ===== EXPORT (2 Sheets) =====
+    // ===== EXPORT =====
     function exportToExcel() {
         if (records.length === 0) { showAlert('error', 'ไม่มีข้อมูลให้ Export'); return; }
 
         const data1 = records.map((r,i) => ({
-            'ลำดับ': i+1,
-            'ชื่อของรางวัล': r.prizeName,
-            'จำนวน': r.prizeQuantity,
-            'Emp-ID': r.empId,
-            'Function': r.empFunction,
-            'Name': r.empName,
-            'วันที่': r.date
+            'ลำดับ': i+1, 'ชื่อของรางวัล': r.prizeName, 'จำนวน': r.prizeQuantity,
+            'Emp-ID': r.empId, 'Function': r.empFunction, 'Name': r.empName, 'วันที่': r.date
         }));
-        const ws1 = XLSX.utils.json_to_sheet(data1);
 
-        const data2 = PRIZE_CATALOG.map((p, i) => {
+        const data2 = PRIZE_CATALOG.map((p,i) => {
             const used = getUsed(p.name);
             const rem  = p.total - used;
             return {
-                'ลำดับ': i+1,
-                'ชื่อของรางวัล': p.name,
-                'จำนวนทั้งหมด': p.total,
-                'แจกแล้ว': used,
-                'คงเหลือ': rem,
+                'ลำดับ': i+1, 'ชื่อของรางวัล': p.name,
+                'จำนวนทั้งหมด': p.total, 'แจกแล้ว': used, 'คงเหลือ': rem,
                 '% ใช้': Math.round((used / p.total) * 100) + '%'
             };
         });
-        const ws2 = XLSX.utils.json_to_sheet(data2);
 
         const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws1, 'Prize Records');
-        XLSX.utils.book_append_sheet(wb, ws2, 'Stock Summary');
+        XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(data1), 'Prize Records');
+        XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(data2), 'Stock Summary');
         XLSX.writeFile(wb, 'Prize_Records_' + new Date().toISOString().split('T')[0] + '.xlsx');
         showAlert('success', '📥 Export สำเร็จ! (2 sheets: Records + Stock Summary)');
     }
 
     // ===== ALERT =====
     function showAlert(type, msg) {
-        ['Success','Error','Info','Warning'].forEach(t =>
-            document.getElementById('alert'+t).style.display = 'none'
-        );
-        const key = type.charAt(0).toUpperCase() + type.slice(1);
-        const el  = document.getElementById('alert' + key);
+        ['Success','Error','Info','Warning'].forEach(t => document.getElementById('alert'+t).style.display = 'none');
+        const el = document.getElementById('alert' + type.charAt(0).toUpperCase() + type.slice(1));
         if (!el) return;
         el.innerHTML = msg;
         el.style.display = 'block';
@@ -923,9 +867,8 @@
 
     function showSampleData() {
         if (!employeeData.length) { showAlert('warning', 'กรุณาอัพโหลดไฟล์ Excel ก่อน'); return; }
-        const s = employeeData.slice(0, 5);
         let msg = '<strong>ตัวอย่าง 5 คนแรก:</strong><br>';
-        s.forEach((e,i) => {
+        employeeData.slice(0, 5).forEach((e,i) => {
             msg += (i+1) + '. ID: <b>' + escapeHtml(e.empId) + '</b> | ' + escapeHtml(e.function) + ' | ' + escapeHtml(e.name) + '<br>';
         });
         showAlert('info', msg);
@@ -933,8 +876,8 @@
 
     // ===== STORAGE =====
     function saveToLocalStorage() {
-        localStorage.setItem('prizeRecords',  JSON.stringify(records));
-        localStorage.setItem('employeeData',  JSON.stringify(employeeData));
+        localStorage.setItem('prizeRecords', JSON.stringify(records));
+        localStorage.setItem('employeeData', JSON.stringify(employeeData));
     }
     function loadFromLocalStorage() {
         const r = localStorage.getItem('prizeRecords');
@@ -943,7 +886,7 @@
         if (e) {
             employeeData = JSON.parse(e);
             if (employeeData.length > 0) {
-                document.getElementById('totalEmployees').textContent = employeeData.length;
+                document.getElementById('totalEmployees').textContent  = employeeData.length;
                 document.getElementById('employeeStats').style.display = 'grid';
             }
         }
